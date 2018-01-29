@@ -1,0 +1,142 @@
+<?
+print_r($this->rows);
+#print_r($_SESSION);
+echo $this->test;
+?>
+	<div class="row">
+		<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading clearfix">
+						<h3 class="panel-title"><?php echo $this->rows['name'] ?></h3>
+					</div>
+					<div class="panel-body">
+						 <form class="form-horizontal" method="post">
+							<input type="hidden" name="id" value="<? echo $this->rows['id'] ?>">
+							<input type="hidden" name="action" value="save">
+						 	<div class="form-group"> 
+								<label class="col-sm-2 control-label">Название</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="Введите название Управляющей компании" name="name" value="<? echo $this->rows['name'] ?>" class="form-control"> 
+								</div> 
+							</div>
+
+							<?php
+								echo '<div class="form-group"> 
+								<label class="col-sm-2 control-label">Место нахождения</label>
+								<div class="col-sm-10">
+								<div class="input-group">';
+									echo '<select name="cities_id" class="form-control">';
+										echo '<option value="0" '.($this->rows['cities_id']==$city['id']?'selected':'').'>Выберите место нахождения</option>';
+										foreach($this->cities as $city)
+										{
+											echo '<option value="'.$city['id'].'" '.($this->rows['cities_id']==$city['id']?'selected':'').'>'.$city['name'].'</option>';
+										}
+									echo '</select>';
+								echo '</div>
+								</div>
+							</div>';
+							?>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Адрес офиса</label>
+								<div class="col-sm-10">
+									<input type="text" placeholder="Адрес офиса управляющей компании" value="<? echo $this->rows['address_office'] ?>"  name="address_office"  class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Контакты</label>
+								<div class="col-sm-10">
+									<input type="text" placeholder="Оставте контакты чтобы можно было связаться по рабочим вопросам!" value="<? echo $this->rows['contact'] ?>"  name="contact"  class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Номер телефона</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon">+7</span> 
+										<input type="text" placeholder="7777777777" name="phone" value="<? echo $this->rows['phone'] ?>" class="form-control"  maxlength="10"> 
+									</div>
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Номер телефона диспечера</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon">+7</span> 
+										<input type="text" placeholder="7777777777" name="manager_phone" value="<? echo $this->rows['manager_phone'] ?>" class="form-control"  maxlength="10"> 
+									</div>
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Номер телефона секретаря</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon">+7</span> 
+										<input type="text" placeholder="7777777777" name="secretary_phone" value="<? echo $this->rows['secretary_phone'] ?>" class="form-control"  maxlength="10"> 
+									</div>
+								</div> 
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Электронная почта</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon"><i class="icon-mail"></i></span>
+										<input type="text" placeholder="mail@example.ru" name="email" value="<? echo $this->rows['email'] ?>" class="form-control"> 
+									</div>
+									
+								</div>
+							</div>
+
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Коментарии</label> 
+								<div class="col-sm-10">
+									<input type="text" value="<? echo $this->rows['comment'] ?>"  name="comment"  class="form-control"> 
+								</div> 
+							</div>
+
+					<div class="line-dashed"></div>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Заявки</label>
+                                                <div class="col-sm-10">
+                                                        <div class="checkbox">
+                                                                <label> <input type="checkbox" name="request" value="1" <?
+                                                                if($this->act) echo ('1'==$this->request ? 'checked' : '');
+                                                                else echo ($this->rows['request']=='1'?'checked':'');
+                                                            ?>> Готовность принимать online-заявки от своих клиентов</label>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Статус</label>
+                                                <div class="col-sm-10">
+                                                        <div class="checkbox">
+                                                                <label> <input type="checkbox" name="act" value="1" <?
+                                                                if($this->act) echo ('1'==$this->act ? 'checked' : '');
+                                                                else echo ($this->rows['act']=='1'?'checked':'');
+                                                            ?>> Активировать аккаунт</label>
+                                                        </div>
+                                                </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="line-dashed"></div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="continue" value="1" <? echo (isset($_SESSION['continue_edit'])?'checked':''); ?>> продолжить редактирование </label> 
+									</div> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10">
+									<button class="btn btn-primary" type="submit">Сохранить</button> <button class="btn btn-small button_link" rel="<? echo BASE_PATH; ?>user/list/" type="submit">Отменить</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+</div>

@@ -1,0 +1,157 @@
+<?
+#print_r($_SESSION);
+#  print_r($this->session);
+#echo "<br>";
+#print_r($this->uk);
+#echo $this->test;
+?>
+	<div class="row">
+		<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading clearfix">
+						<h3 class="panel-title"><?php echo $this->rows['name'] ?></h3>
+					</div>
+					<div class="panel-body">
+						 <form class="form-horizontal" method="post">
+							<input type="hidden" name="id" value="<? echo $this->rows['id'] ?>">
+							<input type="hidden" name="action" value="save">
+						 	<div class="form-group"> 
+								<label class="col-sm-2 control-label">ФИО</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="Фамилия Имя Отчество" name="name" value="<? echo $this->rows['name'] ?>" class="form-control"> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Логин</label>
+								<div class="col-sm-10">
+									<input type="text" placeholder="Логин" name="login" value="<? echo $this->rows['login'] ?>" class="form-control">
+								</div>
+							</div>
+							
+                                                        <div class="form-group">
+                                                    	        <label class="col-sm-2 control-label">Пароль</label>
+								<div class="col-sm-10">
+                                                                <input type="password" name="password" class="form-control" placeholder="введите пароль, чтобы обезапасить аккаунт" value="">
+                                                                <p class="help-block">Пароль должен содержать только цифры и латинские буквы</p>
+								</div>
+                                                        </div>
+
+							<?php
+								echo '<div class="form-group"> 
+								<label class="col-sm-2 control-label">Права</label>
+								<div class="col-sm-10">
+								<div class="input-group">';
+								
+								if(count($this->roles)>1)									
+								{
+																	echo '<select name="role_id" class="form-control">';
+																	foreach($this->roles as $role)
+																	{
+																		echo '<option value="'.$role['id'].'" '.($this->rows['role_id']==$role['id']?'selected':'').'>'.$role['name'].'</option>';
+																	}
+																	echo '</select>';
+								}else {																	
+									echo '<input type="hidden" name="role_id" value="'.$this->roles[0]['id'].'">';
+									
+										echo '<p class="help-block">'.$this->roles[0]['name'].'</p>';;
+								}									
+								echo '</div>
+								</div>
+							</div>';
+							?>
+
+						 <?php
+                                                                echo '<div class="form-group">
+                                                                <label class="col-sm-2 control-label">Управляющая компания</label>
+                                                                <div class="col-sm-10">
+                                                                <div class="input-group">';
+
+																if(count($this->uk)>1)									
+																{
+																	echo '<select name="uk_id" class="form-control"><option value="">Не выбрана</option>';
+																	foreach($this->uk as $uk)
+																	{
+																		echo '<option value="'.$uk['id'].'" '.($this->uk_id==$uk['id']?'selected':'').'>'.$uk['name'].'</option>';
+																	}
+																	echo '</select>';
+																}else {																	
+																	echo '<input type="hidden" name="uk_id" value="'.$this->uk_id.'">';
+																	
+																	echo '<p class="help-block">'.$this->uk_name.'</p>';
+																}
+																
+                                                                echo '</div>
+                                                                </div>
+                                                        </div>';
+                                                        ?>
+							<div class="line-dashed"></div>
+
+						
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Контакты</label>
+								<div class="col-sm-10">
+									<input type="text" placeholder="Оставте контакты чтобы можно было связаться по рабочим вопросам!" value="<? echo $this->rows['contact'] ?>"  name="contact"  class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Номер телефона</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon">+7</span> 
+										<input type="text" placeholder="7777777777" name="phone" value="<? echo $this->rows['phone'] ?>" class="form-control"  maxlength="10"> 
+									</div>
+								</div> 
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Электронная почта</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon"><i class="icon-mail"></i></span>
+										<input type="text" placeholder="mail@example.ru" name="email" value="<? echo $this->rows['email'] ?>" class="form-control"> 
+									</div>
+									
+								</div>
+							</div>
+
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Коментарии</label> 
+								<div class="col-sm-10">
+									<input type="text" value="<? echo $this->rows['comment'] ?>"  name="comment"  class="form-control"> 
+								</div> 
+							</div>
+
+							<div class="line-dashed"></div>
+
+							
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Статус</label>
+                                                <div class="col-sm-10">
+                                                        <div class="checkbox">
+                                                                <label> <input type="checkbox" name="act" value="1" > Активировать аккаунт</label>
+                                                        </div>
+                                                </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="line-dashed"></div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="continue" value="1" <? echo (isset($_SESSION['continue_edit'])?'checked':''); ?>> продолжить редактирование </label> 
+									</div> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10">
+									<button class="btn btn-primary" type="submit">Сохранить</button> <button class="btn btn-small button_link" rel="<? echo BASE_PATH; ?>user/list/" type="submit">Отменить</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+</div>

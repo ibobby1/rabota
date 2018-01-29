@@ -1,0 +1,25 @@
+<form method="post" action="">
+			<div class="form-group">
+				<input type="text" id="login" placeholder="логин" value="<?php echo $this->login;?>" name="login" class="form-control">
+			</div>
+			<?php if(!empty($this->login_error))echo '<div class="label label-secondary">'.$this->login_error.'</div>';?>
+			<div class="form-group">
+				<input type="password" placeholder="пароль"  value="<?php echo $this->pass;?>" name="password" class="form-control">
+			</div>
+			<?php
+			if($this->pass_error)echo '<div class="label label-secondary">'.$this->pass_error.'</div>';?>
+			<div class="form-group">
+				 <div class="checkbox checkbox-replace">
+					<input type="checkbox" id="remeber">
+					<label for="remeber">Запомнить</label>
+				  </div>
+			 </div>
+			<div class="form-group">
+				<button class="btn btn-primary btn-block">Войти</button>
+			</div>
+			<script>
+				document.getElementById('login').focus();
+			</script>
+			<!--<p class="text-center"><a href="forgot-password.html">Forgot your password?</a></p>                        -->
+		</form>
+		

@@ -1,0 +1,131 @@
+<!-- Filter wrapper -->
+	<div class="row filter-wrapper visible-box" id="filter-box" <? if(empty($_COOKIE['filter']) and empty($_GET['filter'])) echo ' style="display:none;"'; ?>>
+		<div class="col-lg-12">
+			<div class="filter-header">
+				<button aria-label="Close" class="close toggle-filter" type="button" data-block-id="filter-box"><i class="icon-cancel"></i></button>
+				<h3 class="title">Фильтр</h3>
+			</div>
+			<form class="form-inline" method="GET" >
+				<input name="filter" value="true" type="hidden">
+				<div class="form-group">
+					<label class="form-label">ФИО</label>
+					<input type="text" name="fio" placeholder="" value="<? echo $this->fio; ?>" class="form-control">
+				</div>
+				<div class="form-group">
+					<label class="form-label">От времени</label>
+					<div class="input-group">
+						<input type="text" name="startTime" placeholder="" maxlength=20 value="<? echo $this->startTime; ?>" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="form-label">До времени</label>
+					<div class="input-group">
+						<input type="text" name="endTime" placeholder="" maxlength=20 value="<? echo $this->endTime; ?>" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="form-label">Адрес</label>
+					<div class="filter_adress">
+					<?
+						if($this->city_id){
+							foreach($this->cities as $city)
+							{
+								if($city['id']==$this->city_id)
+								{
+									echo $city['name'];
+									echo '<input name="city_id" value="'.$this->city_id.'" type="hidden">';
+									break;
+								}
+							}
+						}
+
+						if($this->street_id!='' and $this->street_id!='0')echo ', ',$this->streets[$this->city_id][$this->street_id]['name'].'<input name="street_id" value="'.$this->street_id.'" type="hidden">';
+						if($this->house!='')echo ', д.'.$this->house.'<input name="house" value="'.$this->house.'" type="hidden">';
+						if($this->korp!='')echo ', корп.'.$this->korp.'<input name="korp" value="'.$this->korp.'" type="hidden">';
+						if($this->entrance!='')echo ', п.№'.$this->entrance.'<input name="entrance" value="'.$this->entrance.'" type="hidden">';
+						if($this->flat!='')echo ', кв.'.$this->flat.'<input name="flat" value="'.$this->flat.'" type="hidden">';
+					?>
+					</div>
+					<button type="button" class="btn btn-info btn-x" data-toggle="modal" data-target="#filter_adress">задать адрес</button>
+
+
+
+				</div>
+				<div class="form-group">
+					<label class="form-label">Номер домофона</label>
+					<input type="text" name="intercom" placeholder="" value="<? echo $this->intercom; ?>" class="form-control">
+				</div>
+				<div class="form-group filter-btn">
+					<button class="btn btn-default">Фильтровать</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- /filter wrapper -->
+
+<div id="filter_adress" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+	<div class="modal-content">
+    	    <div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    		<h4 class="modal-title">Задать адрес домофона для фильтра</h4>
+    	    </div>
+    	    <div class="modal-body">
+		    <div class="adress_filter">
+			  <div class="form-group">
+				<label for="city_filter">Город</label>
+
+
+			        <select class="form-control" name="city_id" id="city_filter">
+						<option value="0">не выбран</option>
+									<?
+
+										foreach($this->cities as $city)
+										{
+											echo '<option value="'.$city['id'].'" '.($this->city_id==$city['id']?'selected':'').'>'.$city['text'].'</option>';
+										}
+
+									?>
+									</select>
+							  </div>
+							  <div class="form-group">
+								<label for="street_filter">Улица</label>
+								<select class="form-control" name="street_filter" id="street_filter">
+								<option value="0">Не выбрана</option>
+								<?
+									if($this->street_id and $this->city_id)
+									{
+										foreach($this->streets[$this->city_id] as $street)
+										{
+											echo '<option value="'.$street['id'].'" '.($this->street_id==$street['id']?'selected':'').'>'.$street['name'].'</option>';
+										}
+									}
+								?>
+								</select>
+								<? echo '<script>filter_street="'.$this->street_id.'";</script>'; ?>
+								<? echo '<script>filter_city="'.$this->city_id.'";</script>'; ?>
+							  </div> <div class="form-group">
+								<label for="filter_house">Дом</label>
+								<div class="row">
+										<div class="col-md-3"><input type="text" id="filter_house" value="<? echo $this->house; ?>" name="house" class="form-control" placeholder="Номер дома" title="Номер дома"></div>
+										<div class="col-md-3"><input type="text"  id="filter_korp" value="<? echo $this->korp; ?>" name="korp" class="form-control" placeholder="Корпус" title="Корпус"></div>
+										<div class="col-md-3"><input type="text"  id="filter_flat"  value="<? echo $this->flat; ?>" name="flat" class="form-control" placeholder="Квартира" title="Квартира"></div>
+										<div class="col-md-3"><input type="text"  id="filter_entrance"  value="<? echo $this->entrance; ?>" name="entrance" class="form-control" placeholder="Подъезд" title="Подъезд"></div>
+							</div>
+					  </div>
+
+				</div>
+		    	</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+		    		<button type="button" class="btn btn-default clear_adress">сбросить</button>
+			        <button type="button" class="btn btn-primary fix_adress">Задать</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+
+</div><!-- /.modal -->
+<!--End Basic Modal-->
+<?
+	if($this->streets) echo '<script>var streets='.json_encode($this->streets).';</script>';
+?>

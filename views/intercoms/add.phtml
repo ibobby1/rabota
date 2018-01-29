@@ -1,0 +1,174 @@
+		<div class="row">
+		<div class="col-lg-12">
+				<div class="panel panel-default">
+				<div class="panel-heading clearfix">
+						<h3 class="panel-title">Новый домофон</h3>
+					</div>
+					<div class="panel-body">	
+						 <form class="form-horizontal" method="post">
+							<input type="hidden" name="id" value="">
+							<input type="hidden" name="action" value="save">							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Номер</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="" name="number" value="<? echo $this->rows['number'] ?>" class="form-control"> 
+								</div> 
+							</div>
+							<?php 
+								if(count($this->uk)>1)
+								{
+									echo '<div class="form-group"> 
+								<label class="col-sm-2 control-label">Управляющая компания</label> 
+								<div class="col-sm-10"> 
+								<div class="input-group"> 									
+									<select name="uk_id" class="form-control">';
+									
+										foreach($this->uk as $uk)
+										{
+											echo '<option value="'.$uk['id'].'" '.($this->uk_id==$uk['id']?'selected':'').'>'.$uk['name'].'</option>';
+										}
+									
+									echo '</select>
+									
+									</div>
+									</div>
+									
+								
+							</div>';
+								}else if(count($this->uk)==1)
+									echo '<input type="hidden" name="uk_id" value="'.$this->uk[0]['id'].'">';
+								else echo '<input type="hidden" name="uk_id" value="'.$this->uk_id.'">';
+							?>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="enter_all" value="1" <? echo ($this->rows['enter_all']=='1'?'checked':''); ?>> Вход по любому ключу</label> 
+									</div> 
+								</div> 
+							</div>		
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Тип считывателя</label> 
+								<div class="col-sm-10"> 
+								<div class="input-group"> 									
+									<select name="reader_type" class="form-control">
+									<?
+									foreach($this->reader_types as $type)
+									{
+										echo '<option value="'.$type['id'].'">'.$type['name'].'</option>';
+									}									
+									?></select>									
+								</div>
+								</div>
+									
+								
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Тип устройства</label> 
+								<div class="col-sm-10"> 
+								<div class="input-group"> 									
+									<select name="device_type" class="form-control">
+									<?
+									foreach($this->device_type as $type)
+									{
+										echo '<option value="'.$type['id'].'">'.$type['name'].'</option>';
+									}									
+									?></select>									
+								</div>
+								</div>
+									
+								
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Город</label> 
+								<div class="col-sm-10"> 
+								<div class="input-group"> 									
+									<select name="city" class="form-control"><option value="0">Не выбран</option>										
+									<?
+										foreach($this->cities as $city)
+										{
+											echo '<option value="'.$city['id'].'">'.$city['text'].'</option>';
+										}
+									
+									?>
+									</select>
+									<span class="input-group-btn"><button class="btn btn-default add_city" type="button">добавить город</button></span>
+									<input type="text" placeholder="Название города" name="city_new"  class="form-control" style="display:none;"> 
+									
+									</div>
+									
+								</div> 
+							</div>
+														
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Улица</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="Улица" name="street" value="" class="form-control"> 
+								</div> 
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Дом</label> 
+								<div class="col-sm-10"> 
+									<div class="row">
+										<div class="col-md-3"><input type="text" value="" name="house" class="form-control" placeholder="Номер дома" title="Номер дома"></div>
+										<div class="col-md-3"><input type="text" value="" name="korp" class="form-control" placeholder="Корпус" title="Корпус"></div>
+									</div>
+								</div> 
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Подъезд</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="" name="entrance" value="" class="form-control"> 
+								</div> 
+							</div>
+							<div class="line-dashed"></div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Комментарий</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="например: парадный вход" name="comment" value="" class="form-control"> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Экстренный вызов телефон</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="9052356754" name="emergency" value="" class="form-control"> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Экстренный вызов SIP</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="0000000" name="emergency_sip" value="" class="form-control"> 
+								</div> 
+							</div>
+							<?
+							foreach($this->txt_fields as $name=>$field)
+							{
+								echo '<div class="form-group"> 
+								<label class="col-sm-2 control-label">'.$field['name'].'</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="'.$field['placeholder'].'" name="'.$name.'" value="" class="form-control"> 
+									</div> 
+								</div>';
+							}
+							
+							?>
+							<div class="line-dashed"></div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="continue" value="1" > продолжить редактирование </label> 
+									</div> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<button class="btn btn-primary" type="submit">Сохранить</button> <button class="btn btn-small button_link" rel="clients/list/" type="submit">Отменить</button> 
+								</div> 
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+</div>

@@ -1,0 +1,68 @@
+<?
+#echo $this->test;
+#print_r($this->rows);
+#print_r($this->uprkp);
+?>
+                <div class="table-responsive">
+                        <table class="table table-users table-hover">
+                                <thead>
+                                        <tr>
+                                                <th class="size-60"></th>
+                                                <th>Название</th>
+                                                <th>Город</th>
+                                                <th>Комент</th>
+                                                <th>Контакты</th>
+                                                <th class="text-center">Статус</th>
+                                                <th class="size-80" class="text-center">Действия</th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                <? if($this->rows)
+                                        foreach($this->rows as $row)
+                                        {
+                                                echo '<tr>
+                                                <td class="size-60"><div class="form-checkbox"><input type="checkbox" name="id[]" class="id_field" value="'.$row['id'].'"> <span class="check"><i class="fa fa-check"></i></span></div></td>
+                                                <td><a href="'.BASE_PATH.'user/edituk/'.$row['id'].'">'.$row['name'].'</a></td>
+                                                <td>'.$row['city'].'</td>
+                                                <td>'.$row['comment'].'</td>
+                                                <td>'.$row['contact'].'<br> телефон секретаря:'.$row['secretary_phone'].'<br>телефон диспечера: '.$row['manager_phone'].'<br> </td>';
+                                                echo '<td align=center>';
+                                                if($row['act']=='1')
+                                                        echo '<a title="заблокировать" href="'.BASE_PATH.'user/blockuk/'.$row['id'].'"><i class="icon-check icon-larger green-color"></i></a>';
+                                                else echo '<a  title="разблокировать" href="'.BASE_PATH.'user/activateuk/'.$row['id'].'"><i class="icon-check icon-larger red-color"></i></a>';
+                                                echo '</td><td class="size-80">
+                                                        <div class="dropdown">
+                                                                <a href="#/" data-toggle="dropdown" class="more-link"><i class="icon-dot-3 ellipsis-icon"></i></a>
+                                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                                <li><a href="'.BASE_PATH.'user/edituk/'.$row['id'].'">Редактировать</a></li>
+                                                                        ';
+                                                //if($row['act']=='1')
+                                                if($row['is_debt']=='0')
+                                                        echo '<li><a href="'.BASE_PATH.'user/blockuk/'.$row['id'].'">Заблокировать</a></li>';
+                                                else echo '<li><a href="'.BASE_PATH.'user/activateuk/'.$row['id'].'">Разблокировать</a></li>';
+                                                        echo '<li><a href="'.BASE_PATH.'user/deleteuk/'.$row['id'].'" class="confirm" confirm="Вы уверены что хотите удалить клиента '.$row['name'].'?">Удалить</a></li>
+                                                                </ul>
+                                                        </div>
+                                                </td>
+                                        </tr>';
+                                        }
+                                ?>
+                                </tbody>
+                        </table>
+			<?
+                        if($this->count_all>$this->on_page)
+                        {
+
+                                echo '<div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        <ul class="pagination">';
+                                if($this->page>1)
+                                                echo '<li class="paginate_button previous" id="DataTables_Table_0_previous"><a href="?page='.($this->page-1).($visibleAllArchive).($visibleFilter).'" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Предыдущие</a></li>';
+                                for ($i = 0; $i <= round($this->count_all/$this->on_page); $i++)
+                                {
+                                        echo '<li class="paginate_button'.($this->page==$i?' active':'').'"><a href="?page='.$i.$visibleAllArchive.$visibleFilter.'" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">'.($i+1).'</a></li>';
+                                }
+                                if($this->page<round($this->count_all/$this->on_page))
+                                        echo '<li class="paginate_button next" id="DataTables_Table_0_next"><a href="?page='.($this->page+1).($visibleAllArchive).($visibleFilter).'" aria-controls="DataTables_Table_0" data-dt-idx="7" tabindex="0">Следующие</a></li>';
+                                echo '</ul></div>';
+                        }
+                        ?>

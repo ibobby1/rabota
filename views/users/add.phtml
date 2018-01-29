@@ -1,0 +1,43 @@
+<?
+#print_r($_SESSION);
+#echo "<br>";
+#  print_r($this->session);
+#print_r($this->rows);
+#echo $this->test;
+?>
+                                                        <?php
+                                                                echo '<div class="form-group">
+                                                                <label class="col-sm-2 control-label">Управляющая компания</label>
+                                                                <div class="col-sm-10">
+                                                                <div class="input-group">
+                                                                        <select name="uk_id" class="form-control">';
+                                                                                echo '<option value="0" '.($this->rows['uk_id']==$uk['id']?'selected':'').'>Привязать к управляющей компании</option>';
+                                                                                foreach($this->uk as $uk)
+                                                                                {
+                                                                                       if($this->session['role_id'] == 1)
+                                                                                       {
+                                                                                               if($this->session['uk_id'] == 0)
+                                                                                               {
+                                                                                                       #echo '<option value="'.$uk['id'].'" '.($this->rows['uk_id']==$uk['id']?'selected':'').'>'.$uk['name'].'!</option>';
+                                                                                               }
+                                                                                               elseif($this->session['uk_id'] > 0)
+                                                                                               {
+                                                                                                       echo '<option value="'.$uk['id'].'" '.($this->session['uk_id']==$uk['id']?'selected':'').'>'.$uk['name'].'!!</option>';
+
+                                                                                               }
+                                                                                       }
+                                                                                       elseif($this->session['role_id'] > 1)
+                                                                                       {
+                                                                                               #echo '<option value="'.$uk['id'].'" '.($this->session['uk_id']==$uk['id']?'selected':'').'>'.$uk['name'].'!!!</option>';
+                                                                                       }
+                                                                                       else
+                                                                                       {
+                                                                                               #echo '<option value="'.$uk['id'].'" '.($this->session['uk_id']==$uk['id']?'selected':'').'>'.$uk['name'].'!!!!</option>';
+                                                                                       }
+                                                                               }
+
+                                                                        echo '</select>
+                                                                        </div>
+                                                                </div>
+                                                        </div>';
+                                                        ?>

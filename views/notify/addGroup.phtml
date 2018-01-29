@@ -1,0 +1,101 @@
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title">Новое общедомовое сообщение</h3>
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal" method="post">
+					<input type="hidden" name="action" value="save">
+					<input type="hidden" name="group_id" value="<? echo $this->rows['group_id'] ?>">
+					<input type="hidden" name="ids" value="<? echo $this->ids ?>">
+
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label> <input type="checkbox" name="enter_all" value="1" <? echo ($this->rows['enter_all']=='1'?'checked':''); ?>> Не стандартное сообщение</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Извещение</label>
+						<div class="col-sm-10">
+							<div class="input-group">
+								<select name="notify" class="form-control add_txt_notify"><option value="0">Сообщение не выбрано</option>
+									<option value="1" >Не оплачен долг</option>';
+									<option value="3" >Общедомовое сообщение</option>';
+								</select>
+							</div>	
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Название</label>
+						<div class="col-sm-10">
+							<input type="text" placeholder="" name="nameGroupNotifycations" value="<? echo $this->nameGroupNotifycations ?>" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group search_new"> <!-- style="display:none;" -->
+						<label class="col-sm-2 control-label">Текст сообщения</label>
+						<div class="col-sm-10">
+							<textarea name="notify_text" class="form-control"><? echo $this->notify_txt ?></textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Адресуется</label>
+						<div class="col-sm-10">
+							<input type="text" placeholder="" name="client" value="<? echo $this->fio ?>" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Начало действия</label>
+						<div class="col-sm-10">
+							<input type="text" placeholder="" name="startTime" value="<? echo $this->startTime ?>" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Окончание действия</label>
+						<div class="col-sm-10">
+							<input type="text" placeholder="" name="endTime" value="<? echo $this->startTime ?>" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Домофон</label>
+						<div class="col-sm-10">
+							<input type="text" placeholder="" name="intercom" value="" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Статус</label>
+						<div class="col-sm-10">
+							<div class="checkbox">
+								<label> <input type="checkbox" name="status" value="1" <? echo ($this->rows['status']=='1'?'checked':''); ?>> Включен</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="line-dashed"></div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label> <input type="checkbox" name="continue" value="1" <? echo (isset($_SESSION['continue_edit'])?'checked':''); ?>> продолжить редактирование </label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button class="btn btn-primary" type="submit">Сохранить</button> <button class="btn btn-small button_link" rel="<? echo BASE_PATH; ?>notify/list/" type="submit">Отменить</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

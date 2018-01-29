@@ -1,0 +1,35 @@
+<p>Файл для выгрузки задолженностей в Систему Город (saldo.txt) <a href="<? echo BASE_PATH; ?>bills/gorod/1" class="btn btn-primary">Скачать</a>
+</p>
+<div class="table-responsive">
+			<table class="table table-intercoms table-hover">
+				<thead>
+					<tr>						
+						<th>ФИО</th>
+						<th>Номер счета</th>
+						<th>Адрес СГ</th>
+						<th>Дата от</th>
+						<th>по</th>						
+						<th>сумма</th>						
+						
+					</tr>
+				</thead>
+				<tbody>
+				<? if($this->rows)
+					foreach($this->rows as $row)
+					{
+						echo '
+						<tr>
+							<td><a href="'.BASE_PATH.'clients/edit/'.$row['id'].'">'.$row['fio'].'</a></td>						
+							<td>'.$row['number'].'</td>						
+							<td>'.$row['adress'].'</td>						
+							<td>'.$row['period_from'].'</td>						
+							<td>'.$row['period_to'].'</td>						
+							<td>'.number_format(floatval($row['summ']), 2, '.', '').' руб.</td>											
+						</tr>';
+					}
+				?>						
+				</tbody>
+			</table>			
+		</div>
+		
+

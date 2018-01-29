@@ -1,0 +1,268 @@
+		<? if($this->message)echo '<div class="alert alert-success" role="alert">'.$this->message.'</div>';?>
+		<div class="row">
+		<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading clearfix">
+						<h3 class="panel-title">Данные нового клиента</h3>
+					</div>
+					<div class="panel-body">
+						 <form class="form-horizontal" method="post">
+							<input type="hidden" name="id" >
+							<input type="hidden" name="action" value="savenew">
+						 	<div class="form-group"> 
+								<label class="col-sm-2 control-label">Фамилия</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="Фамилия" name="last_name"  class="form-control"> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Имя</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="Имя" name="first_name"  class="form-control"> 
+								</div> 
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Отчество</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="Отчество" name="father_name"  class="form-control"> 
+								</div> 
+							</div>							
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="act" value="1"> Включен</label> 
+									</div> 
+								</div> 
+							</div>		
+							<div class="line-dashed"></div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Номер телефона</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon">+7</span> 
+										<input type="text" placeholder="(999) 999-9999" data-mask="(999) 999-9999" name="phone"  class="form-control" maxlength="14"> 
+									</div>
+								</div> 
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Электронная почта</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon"><i class="icon-mail"></i></span>
+										<input type="text" placeholder="mail@example.ru" name="email"  class="form-control"> 
+									</div>
+								</div> 
+							</div>
+							
+							<div class="line-dashed"></div>
+							
+							
+						
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Тариф</label> 
+								<div class="col-sm-10"> 
+									<select name="tarif_id" class="form-control">
+								<?php	
+										foreach($this->tarif_list as $row)
+										{
+											echo '<option value="'.$row['id'].'"'.($this->rows['tarif_id']==$row['id']?'selected':'').'>'.$row['tarif_name'].'</option>';
+										}
+								?>		
+									</select>
+								</div> 
+							</div>	
+						
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Баланс SMS</label> 
+								<div class="col-sm-10"> 
+									<input type="text" value="10"  name="sms_balance"  class="form-control"> 
+								</div> 
+							</div>							
+							
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Код активации</label> 
+								<div class="col-sm-10"> 
+									сгенерируется автоматически
+								</div> 
+							</div>
+														
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Гостевой код</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="" name="guestCode"  class="form-control"> 
+								</div> 
+							</div>							
+						<?php 
+								if(count($this->uk)>1)
+								{
+									echo '<div class="form-group"> 
+								<label class="col-sm-2 control-label">Управляющая компания</label> 
+								<div class="col-sm-10"> 
+								<div class="input-group"> 									
+									<select name="uk_id" class="form-control">';
+									
+										foreach($this->uk as $uk)
+										{
+											echo '<option value="'.$uk['id'].'" '.($this->uk_id==$uk['id']?'selected':'').'>'.$uk['name'].'</option>';
+										}
+									
+									echo '</select>
+									
+									</div>
+									</div>
+									
+								
+							</div>';
+								}
+								else if(count($this->uk)==1)
+									echo '<input type="hidden" name="uk_id" value="'.$this->uk[0]['id'].'">';								
+								else echo '<input type="hidden" name="uk_id" value="'.$this->uk_id.'">';
+							?>
+						<div class="form-group"> 
+								<label class="col-sm-2 control-label">Ключи</label> 
+								<div class="col-sm-10"> 
+									<div class="key_table">
+										<div class="row key_head">
+											<div class="col-md-2">
+											Номер 
+											</div>			
+											<div class="col-md-2">
+											Название ключа
+											</div>			
+											<div class="col-md-1">
+											Код
+											</div>
+											<div class="col-md-2">
+											Телефон
+											</div>			
+											<div class="col-md-2">
+											SIP
+											</div>
+											<div class="col-md-1 text-center">
+											Включен
+											</div>	
+											
+										</div>																		
+									</div>									
+									<a data-rel="collapse" href="#" class="plus_key"><i class="fa fa-plus" aria-hidden="true"></i> Добавить ключ</a>
+								</div>
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label"></label> 
+								<div class="col-sm-10"> 
+								
+								<h2>Домофоны<button class="btn btn-default add_domofon"><i class="fa fa-plus" aria-hidden="true"></i> Прикрепить новый</button></h2>
+								
+								</div>	
+							</div>	
+							<div class="form-group search_new" style="display:none;"> 
+								<label class="col-sm-2 control-label">Адрес домофона</label> 
+								<div class="col-sm-10"> 
+									<div class="row search_addr">									
+										<div class="col-md-3">
+										<div class="help-block m-b-none">Город</div>
+											<select name="city_search" class="form-control">
+												<option value="0">Город</option>										
+											<?
+												foreach($this->cities as $city)
+												{
+													echo '<option value="'.$city['id'].'">'.$city['text'].'</option>';
+												}										
+											?>
+											</select>
+										</div>
+										<div class="col-md-3"><div class="help-block m-b-none">Улица</div>
+											<select  name="street_search" class="form-control"><option value="0">Улица</option>																				
+											</select>
+										</div>									
+											<div class="col-md-3"><div class="help-block m-b-none">Номер дома</div><select name="bild_domofon" class="form-control" title="Номер дома"></select></div>
+											
+										</div>
+									<div class="result row">
+										
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Домофоны клиента</label> 
+								<div class="col-sm-10 domnofon_added">
+									<div class="help-block m-b-none">Нет добавленных</div>
+								</div>	
+							</div>
+								
+							<div class="line-dashed"></div>	
+							
+							<!--<div class="form-group"> 
+								<label class="col-sm-2 control-label">Временная зона</label> 
+								<div class="col-sm-10"> 
+									<select name="timezone" class="form-control">
+									<?
+										foreach($this->time_zone as $value=>$name)
+											echo '<option value="'.$value.'">'.$name.'</option>';
+									?>
+									</select>									
+								</div> 
+							</div>
+							-->							
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+								
+								<div class="row">
+									<div class="checkbox col-md-3">
+										 <label> <input type="checkbox" name="silentModeActive" value="1"> тихий режим</label> 
+									</div> 
+									<div class="col-md-3">от <input type="text" name="silentModeStart" value="" class="form-control" placeholder="23:00" ></div>
+									<div class="col-md-3">до <input type="text" name="silentModeFinish" value="" class="form-control" placeholder="7:00" ></div>										
+											
+									</div>
+									
+									
+								</div> 
+							</div>	
+							
+							<!--[id] => 31004
+    [last_name] => Иванов
+    [first_name] => Иван
+    [father_name] => Иванович
+    [street] => Космонавтов
+    [bild] => 2
+    [korp] => 
+    [flat] => 1
+    [phone] => 9127974440
+    [date_reg] => 2016-06-16
+    [clientCode] => 
+    [guestCode] => 777
+    [hash] => 520719
+    [domophone] => 10021002
+    [email] => ivanov@mail.ru
+    [sipAdress] => 31004@feeltrg.rontel.ru:9038
+    [city] => Трехгорный
+    [timezone] => 
+    [$configFlat] => 0
+    [$analogueNumber] => 0-->	
+	
+							<div class="line-dashed"></div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="continue" value="1" <? echo (isset($_SESSION['continue_edit'])?'checked':''); ?>> продолжить редактирование </label> 
+									</div> 
+								</div> 
+							</div>							
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<button class="btn btn-primary" type="submit">Сохранить</button> <button class="btn btn-small button_link" rel="<? echo BASE_PATH.'clients/list/'; ?>">Отменить</button> 
+								</div> 
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+</div>
+

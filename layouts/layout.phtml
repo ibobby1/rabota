@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><?php echo $this->title() ?></title>
+
+<!-- Entypo font stylesheet -->
+<link href="<? echo CSS_PATH; ?>css/entypo.css" rel="stylesheet">
+<!-- /entypo font stylesheet -->
+
+<!-- Font awesome stylesheet -->
+<link href="<? echo CSS_PATH; ?>css/font-awesome.min.css" rel="stylesheet">
+<!-- /font awesome stylesheet -->
+
+<!-- Bootstrap stylesheet min version -->
+<link href="<? echo CSS_PATH; ?>css/bootstrap.min.css" rel="stylesheet">
+<!-- /bootstrap stylesheet min version -->
+
+<!-- Mouldifi core stylesheet -->
+<link href="<? echo CSS_PATH; ?>css/mouldifi-core.css" rel="stylesheet">
+<!-- /mouldifi core stylesheet -->
+
+<link href="<? echo CSS_PATH; ?>css/mouldifi-forms.css" rel="stylesheet">
+<link href="<? echo BASE_PATH; ?>css/custom.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="<? echo CSS_PATH; ?>js/html5shiv.min.js"></script>
+      <script src="<? echo CSS_PATH; ?>js/respond.min.js"></script>
+<![endif]-->
+<? echo $this->load_css();?>
+</head>
+<body>
+
+<!-- Page container -->
+<div class="page-container">
+
+	<!-- Page Sidebar -->
+	<div class="page-sidebar">
+	
+		<!-- Site header  -->
+		<header class="site-header">
+		  <div class="site-logo"><a href="<? echo BASE_PATH; ?>"><img src="<? echo CSS_PATH; ?>/images/feelindomophone-logo.svg" alt="Умный домофон" title="Умный домофон"></a></div>
+		  <div class="sidebar-collapse hidden-xs"><a class="sidebar-collapse-icon" href="#"><i class="icon-menu"></i></a></div>
+		  <div class="sidebar-mobile-menu visible-xs"><a data-target="#side-nav" data-toggle="collapse" class="mobile-menu-icon" href="#"><i class="icon-menu"></i></a></div>
+		</header>
+		<!-- /site header -->
+		<?php
+			if($_SESSION["user"]['role_id']=='1')
+			{
+				$user="Администратор";
+		?>
+		<!-- Main navigation -->
+		<ul id="side-nav" class="main-menu navbar-collapse collapse">
+			<li <? if($this->model()=='clients')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'clients/list/'?>"><i class="fa fa-users"></i><span class="title">Клиенты</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'clients/list/'?>"><span class="title">Список клиентов</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/add/'?>"><span class="title">Добавление нового клиента</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/import/'?>"><span class="title">Импорт из CSV</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/sip/'?>"><span class="title">Подключенные SIP аккаунты</span></a></li>
+					<li><a href="<? echo BASE_PATH.'bills/import/'?>"><span class="title">Оплаты из Сбербанка</span></a></li>
+					<li><a href="<? echo BASE_PATH.'bills/gorod/'?>"><span class="title">Выгрузка в Систему Город</span></a></li>
+					<li><a href="<? echo BASE_PATH.'report/'?>"><span class="title">Отчеты</span></a></li>
+				</ul>
+			</li>
+			<li <? if($this->model()=='user')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'user/list/'?>"><i class="fa fa-users"></i><span class="title">Пользователи</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'user/list/'?>"><span class="title">Список пользователей</span></a></li>
+					<li><a href="<? echo BASE_PATH.'user/add/'?>"><span class="title">Добавление нового пользователя</span></a></li>
+					<li><a href="<? echo BASE_PATH.'user/listuk/'?>"><span class="title">Список управляющих компаний</span></a></li>
+				</ul>
+			</li>
+			<li <? if($this->model()=='intercoms')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'intercoms/list/'?>"><i class="fa fa-building-o"></i><span class="title">Домофоны</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'intercoms/list/'?>"><span class="title">Список домофонов</span></a></li>
+					<li><a href="<? echo BASE_PATH.'intercoms/add/'?>"><span class="title">Добавление нового домофона</span></a></li>					
+				</ul>
+			</li>
+			<li <? if($this->model()=='notify')echo ' class="active"';?> >
+				<a href="<? echo BASE_PATH.'notify/list/'?>"><i class="fa fa-building-o"></i><span class="title">Оповещения</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'notify/list/'?>"><span class="title">Оповещения клиентам</span></a></li>
+				</ul>
+			</li>
+			<li <? if($this->model()=='voting')echo ' class="active"';?> >
+				<a href="<? echo BASE_PATH.'voting/list/'?>"><i class="fa fa-building-o"></i><span class="title">Голосования</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'voting/listMeeting/'?>"><span class="title">Собрание клиентов</span></a></li>
+				</ul>
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'voting/list/'?>"><span class="title">Вопросы голосования</span></a></li>
+				</ul>
+			</li>
+			
+			<?
+			}else 
+				if($_SESSION["user"]['role_id']=='2')
+			{
+				$user="Оператор связи";
+		?>
+		<!-- Main navigation -->
+		<ul id="side-nav" class="main-menu navbar-collapse collapse">
+			<li <? if($this->model()=='clients')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'clients/list/'?>"><i class="fa fa-users"></i><span class="title">Клиенты</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'clients/list/'?>"><span class="title">Список клиентов</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/add/'?>"><span class="title">Добавление нового клиента</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/import/'?>"><span class="title">Импорт из CSV</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/sip/'?>"><span class="title">Подключенные SIP аккаунты</span></a></li>
+					<li><a href="<? echo BASE_PATH.'bills/import/'?>"><span class="title">Оплаты из Сбербанка</span></a></li>
+					<li><a href="<? echo BASE_PATH.'bills/gorod/'?>"><span class="title">Выгрузка в Систему Город</span></a></li>
+					<li><a href="<? echo BASE_PATH.'report/'?>"><span class="title">Отчеты</span></a></li>
+				</ul>
+			</li>
+			<li <? if($this->model()=='user')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'user/list/'?>"><i class="fa fa-users"></i><span class="title">Пользователи</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'user/list/'?>"><span class="title">Список пользователей</span></a></li>
+					<li><a href="<? echo BASE_PATH.'user/add/'?>"><span class="title">Добавление нового пользователя</span></a></li>
+					<li><a href="<? echo BASE_PATH.'user/listuk/'?>"><span class="title">Список управляющих компаний</span></a></li>
+				</ul>
+			</li>
+			<li <? if($this->model()=='intercoms')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'intercoms/list/'?>"><i class="fa fa-building-o"></i><span class="title">Домофоны</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'intercoms/list/'?>"><span class="title">Список домофонов</span></a></li>
+					<li><a href="<? echo BASE_PATH.'intercoms/add/'?>"><span class="title">Добавление нового домофона</span></a></li>
+					<!--<li><a href="<? echo BASE_PATH.'intercoms/import/'?>"><span class="title">Импорт из CSV</span></a></li>-->
+				</ul>
+			</li>		
+			<?
+			}else 
+				if($_SESSION["user"]['role_id']=='3')
+			{
+				$user="Управляющая компания";
+		?>
+		<!-- Main navigation -->
+		<ul id="side-nav" class="main-menu navbar-collapse collapse">
+			<li <? if($this->model()=='clients')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'clients/list/'?>"><i class="fa fa-users"></i><span class="title">Клиенты</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'clients/list/'?>"><span class="title">Список клиентов</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/add/'?>"><span class="title">Добавление нового клиента</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/import/'?>"><span class="title">Импорт из CSV</span></a></li>		
+					<!--<li><a href="<? echo BASE_PATH.'bills/import/'?>"><span class="title">Оплаты из Сбербанка</span></a></li>
+					<li><a href="<? echo BASE_PATH.'bills/gorod/'?>"><span class="title">Выгрузка в Систему Город</span></a></li>
+					<li><a href="<? echo BASE_PATH.'report/'?>"><span class="title">Отчеты</span></a></li>-->
+				</ul>
+			</li>
+			<li <? if($this->model()=='user')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'user/list/'?>"><i class="fa fa-users"></i><span class="title">Пользователи</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'user/list/'?>"><span class="title">Список пользователей</span></a></li>
+					<li><a href="<? echo BASE_PATH.'user/add/'?>"><span class="title">Добавление нового пользователя</span></a></li>
+				</ul>
+			</li>
+			<li <? if($this->model()=='intercoms')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'intercoms/list/'?>"><i class="fa fa-building-o"></i><span class="title">Домофоны</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'intercoms/list/'?>"><span class="title">Список домофонов</span></a></li>
+					<li><a href="<? echo BASE_PATH.'intercoms/add/'?>"><span class="title">Добавление нового домофона</span></a></li>					
+				</ul>
+			</li>		
+			<?
+			}else 
+				if($_SESSION["user"]['role_id']=='4')
+			{
+				$user="Оператор";
+				$nameUk=DB::query_result("SELECT name FROM Uk where id='%d'",$_SESSION["user"]['uk_id']);
+		?>
+		<!-- Main navigation -->
+		<ul id="side-nav" class="main-menu navbar-collapse collapse">
+			<li <? if($this->model()=='clients')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'clients/list/'?>"><i class="fa fa-users"></i><span class="title">Клиенты</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'clients/list/'?>"><span class="title">Список клиентов</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/add/'?>"><span class="title">Добавление нового клиента</span></a></li>
+					<li><a href="<? echo BASE_PATH.'clients/import/'?>"><span class="title">Импорт из CSV</span></a></li>	
+					<li><a href="<? echo BASE_PATH.'bills/import/'?>"><span class="title">Загрузка оплат из Сбербанка</span></a></li>				
+				</ul>
+			</li>
+			<li <? if($this->model()=='user')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'user/list/'?>"><i class="fa fa-users"></i><span class="title">Пользователи</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'user/list/'?>"><span class="title">Список пользователей</span></a></li>
+					<li><a href="<? echo BASE_PATH.'user/add/'?>"><span class="title">Добавление нового пользователя</span></a></li>
+				</ul>
+			</li>
+			<li <? if($this->model()=='request')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'request/list/'?>"><i class="fa fa-users"></i><span class="title">УК <? echo $nameUk; ?></span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'request/inform/'?>"><span class="title">Информания</span></a></li>
+					<li><a href="<? echo BASE_PATH.'request/list/'?>"><span class="title">Список заявок</span></a></li>
+					<li><a href="<? echo BASE_PATH.'request/metersdata/'?>"><span class="title">Показания счетчиков</span></a></li>
+				</ul>
+			</li>
+
+			<?
+			}else if($_SESSION["user"]['role_id']=='5')
+			{
+				$user="Билинг";
+		?>
+		<!-- Main navigation -->
+		<ul id="side-nav" class="main-menu navbar-collapse collapse">
+			<li <? if($this->model()=='clients')echo ' class="active"';?> > 
+				<a href="<? echo BASE_PATH.'clients/list/'?>"><i class="fa fa-users"></i><span class="title">Клиенты</span></a> 
+				<ul class="nav">
+					<li><a href="<? echo BASE_PATH.'bills/import/'?>"><span class="title">Оплаты из Сбербанка</span></a></li>
+					<li><a href="<? echo BASE_PATH.'bills/gorod/'?>"><span class="title">Выгрузка в Систему Город</span></a></li>
+					<li><a href="<? echo BASE_PATH.'bills/gorodpays/'?>"><span class="title">Выгрузка из Системы Город</span></a></li>
+					<li><a href="<? echo BASE_PATH.'report/'?>"><span class="title">Отчеты</span></a></li>
+				</ul>
+			</li>
+			
+			<?
+			}
+			?>
+		</ul>
+		<!-- /main navigation -->
+  </div>
+  <!-- /page sidebar -->
+  
+  <!-- Main container -->
+  <div class="main-container gray-bg">
+  
+		<!-- Main header -->
+		<div class="main-header row">
+		  <div class="col-sm-6 col-xs-7">
+		  
+			<!-- User info -->
+			<ul class="user-info pull-left">          
+			  <li class="profile-info dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <img width="44" class="img-circle avatar" alt="" src="<? echo CSS_PATH; ?>images/boss-512.png"><? echo $user; ?><span class="caret"></span></a>
+			  
+				<!-- User action menu -->
+				<ul class="dropdown-menu">				  
+				  <li><a href="#/"><i class="icon-user"></i>Профиль</a></li>
+				  <li class="divider"></li>
+				  <li><a href="<? echo BASE_PATH; ?>user/logout/"><i class="icon-logout"></i>Выйти</a></li>
+				</ul>
+				<!-- /user action menu -->
+				
+			  </li>
+			</ul>
+			<!-- /user info -->
+			
+		  </div>
+		  
+		</div>
+		<!-- /main header -->
+		
+		<div class="header-secondary row gray-bg">
+		<div class="col-lg-12">
+			<div class="page-heading clearfix">
+				<h1 class="page-title pull-left"><?php echo $this->h1(); ?>	</h1>
+				<? 
+					$butt=$this->add_button();					
+					if(!empty($butt))echo '<button class="btn btn-primary btn-sm btn-add button_link" rel="'.$butt['link'].'">'.$butt['name'].'</button>';
+				?>
+			</div>
+			<!-- Breadcrumb -->
+			<ol class="breadcrumb breadcrumb-2"> 
+				<li><a href="<? echo BASE_PATH; ?>"><i class="fa fa-home"></i>Главная</a></li> 
+				<?
+					$path=$this->path();
+					if($path)
+					{
+						foreach($path as $item)
+							if(empty($item['link']))
+							echo '<li class="active"><strong>'.$item['name'].'</strong></li>';
+							else echo '<li><a href="'.$item['link'].'">'.$item['name'].'</a></li>';
+					}
+				?>
+			</ol>
+		</div>
+		</div>
+	
+		<?php echo $this->filter(); ?>		
+		
+		
+		
+		<!-- Main content -->
+		<div class="main-content">
+			<h1 class="page-title"><?php echo $this->h1 ?></h1>			
+			<?php 
+				$mess= $this->message();
+				if($mess) echo '<div class="alert alert-warning" role="alert"><button aria-label="Close" class="close toggle-alert-warning" type="button" data-block-id="alert-warning"><i class="icon-cancel"></i></button>'.$mess.'</div>';
+			?>
+			<?php echo $this->content ?>
+			<!-- Footer -->
+			<footer class="footer-main"> 
+				&copy; 2016 <strong>Максет-Лайн</strong>
+			</footer>	
+			<!-- /footer -->
+		
+	  </div>
+	  <!-- /main content -->
+	  
+  </div>
+  <!-- /main container -->
+  
+</div>
+<!-- /page container -->
+
+<!--Load JQuery-->
+<script src="<? echo CSS_PATH; ?>js/jquery.min.js"></script>
+<script src="<? echo CSS_PATH; ?>js/bootstrap.min.js"></script>
+<script src="<? echo CSS_PATH; ?>js/extsrc.js"></script>
+<script src="<? echo CSS_PATH; ?>js/plugins/metismenu/jquery.metisMenu.js"></script>
+<script src="<? echo CSS_PATH; ?>js/plugins/blockui-master/jquery-ui.js"></script>
+<script asyncsrc="<? echo CSS_PATH; ?>js/plugins/blockui-master/jquery.blockUI.js"></script>
+<script asyncsrc="<? echo CSS_PATH; ?>js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<script asyncsrc="<? echo BASE_PATH; ?>js/functions.js"></script>
+<script asyncsrc="<? echo BASE_PATH; ?>js/main.js"></script>
+<? echo $this->load_js();?>
+</body>
+</html>

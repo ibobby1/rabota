@@ -1,0 +1,129 @@
+<div class="row datatable-wrapper form-inline">
+	<div class="col-lg-12">
+		<div class="data-col-first clearfix">
+			<form method="post" action="<? echo BASE_PATH.'notify/list/'; ?>" class="group_archiv">
+				<div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                                <div class="checkbox">
+                                                        <label> <input id="select_archiv" type="checkbox" class="select_archiv" name="visibleAllArchive" value="<? echo $this->checkbox; ?></label>
+                                                </div>
+                                        </div>
+                                </div>
+			</form>
+		</div>
+                                <div class="data-col-last clearfix">
+                                <button class="btn btn-sm btn-success btn-outline filter_show" type="button" ><i class="fa fa-filter"></i> Фильтровать список</button>
+                                </div>
+
+	</div>
+</div>
+
+<div class="row datatable-wrapper form-inline">
+        <div class="col-lg-12">
+                <div class="data-col-first clearfix">
+                        <form method="post" action="<? echo BASE_PATH.'notify/group/'; ?>" class="group_action">
+                                <div class="col-checkbox col-space">
+                                        <div class="form-checkbox" title="выбрать все">
+                                                <input type="checkbox" class="select_all"  value="1" name="all"> <span class="check"><i class="fa fa-check"></i></span>
+                                        </div>
+                                </div>
+                                <div class="col-selectbox">
+                                        <select id="select_action" class="form-control input-sm" name="action">
+                                                <option value="">с выбранными</option>
+                                                <option value="block">деактивировать</option>
+                                                <option value="activate">активировать</option>
+                                                <option value="delete">удалить</option>
+                                                <!--<option value="change">изменить данные</option>-->
+                                        </select>&nbsp;
+                                        <input type="hidden" value="" name="ids">
+                                        <button class="btn btn-primary btn-sm" type="submit">Применить</button>
+                                </div>
+                        </form>
+                </div>
+        </div>
+</div>
+
+<div class="table-responsive">
+	<table class="table table-users table-hover">
+		<thead>
+			<tr>
+				<th class="size-60"></th>
+				<th>Извещение</th>
+				<th>Назначение</th>
+				<th>Время, начало</th>
+				<th>Время, конец</th>
+				<th>Домофон</th>
+				<th class="text-center">Статус</th>
+				<th class="size-80" class="text-center">Действия</th>
+			</tr>
+		</thead>
+		<tbody>
+		<? if($this->rows)
+		foreach($this->rows as $row)
+		{
+			echo '<tr>
+				<td class="size-60"><div class="form-checkbox"><input type="checkbox" name="id[]" class="id_field" value="'.$row['id'].'"> <span class="check"><i class="fa fa-check"></i></span></div></td>
+				<td><a href="'.BASE_PATH.'notify/edit/'.$row['id'].'">';
+				if($row['notify']==1)echo 'Не оплачен долг';
+				elseif($row['notify']==2)echo 'Персональное сообщение';
+				elseif($row['notify']==3)echo 'Общедомовое сообщение';
+				echo '</a></td>
+				<td>'.$row['fio'].'</td>
+				<td>'.$row['startTime'].'</td>
+				<td>'.$row['endTime'].'</td>
+				<td>'.$row['intercom'].'</td>
+				<td>';
+				if($row['status']== 1) echo 'Активировано';
+				else echo 'Деактивировано';
+				echo '</td>
+                                <td align=center>';
+
+				echo '</td><td class="size-80">
+				<div class="dropdown">
+                                <a href="#/" data-toggle="dropdown" class="more-link"><i class="icon-dot-3 ellipsis-icon"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="'.BASE_PATH.'notify/edit/'.$row['id'].'">Редактировать</a></li>';
+					if($row['status']== 1) echo '<li><a href="'.BASE_PATH.'notify/edit/'.$row['id'].'?id='.$row['id'].'&status=0" class="confirm" confirm="Вы уверены что хотите деактивировать сообщение '.$row['fio'].'?">Деактивировать</a></li>';
+//					else echo '<li><a href="'.BASE_PATH.'notify/edit/'.$row['id'].'" class="confirm" confirm="Вы уверены что хотите активировать сообщение '.$row['fio'].'?">Aктивировать</a></li>';
+					else echo '<li><a href="'.BASE_PATH.'notify/edit/'.$row['id'].'?id='.$row['id'].'&status=1" class="confirm" confirm="Вы уверены что хотите активировать сообщение '.$row['fio'].'?">Aктивировать</a></li>';
+					echo  '<li>
+					    <a href="'.BASE_PATH.'notify/delete/'.$row['id'].'" class="confirm" confirm="Вы уверены что хотите удалить сообщение '.$row['fio'].'?">Удалить</a></li>
+                                </ul>
+                                </div>
+				</td>
+			</tr>';
+		}
+		?>
+		</tbody>
+	</table>
+	        <?php
+			if($this->checkboxActiv==1){
+				$visibleAllArchive="&visibleAllArchive=1";
+			}
+			else
+			{
+				 $visibleAllArchive="&visibleAllArchive=0";
+			}
+				if($_GET['filter']){
+				    $visibleFilter="&filter=true&fio=".$_SESSION['notify_filter']['fio']."&startTime=".$_SESSION['notify_filter']['startTime']."&endTime=".$_SESSION['notify_filter']['endTime']."&intercom=".$_SESSION['notify_filter']['intercom']."&city_id=".$_SESSION['notify_filter']['city_id']."&street_id=".$_SESSION['notify_filter']['street_id']."&house=".$_SESSION['notify_filter']['house']."&korp=".$_SESSION['notify_filter']['korp']."&entrance=".$_SESSION['notify_filter']['entrance']."&flat=".$_SESSION['notify_filter']['flat'];
+				}else{
+					$visibleFilter='';
+				}
+
+                        if($this->count_all>$this->on_page)
+                        {
+
+                                echo '<div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        <ul class="pagination">';
+                                if($this->page>1)
+                                                echo '<li class="paginate_button previous" id="DataTables_Table_0_previous"><a href="?page='.($this->page-1).($visibleAllArchive).($visibleFilter).'" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Предыдущие</a></li>';
+                                for ($i = 0; $i <= round($this->count_all/$this->on_page); $i++)
+                                {
+                                        echo '<li class="paginate_button'.($this->page==$i?' active':'').'"><a href="?page='.$i.$visibleAllArchive.$visibleFilter.'" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">'.($i+1).'</a></li>';
+                                }
+                                if($this->page<round($this->count_all/$this->on_page))
+                                        echo '<li class="paginate_button next" id="DataTables_Table_0_next"><a href="?page='.($this->page+1).($visibleAllArchive).($visibleFilter).'" aria-controls="DataTables_Table_0" data-dt-idx="7" tabindex="0">Следующие</a></li>';
+                                echo '</ul></div>';
+                        }
+                        ?>
+</div>

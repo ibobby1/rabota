@@ -1,0 +1,30 @@
+<div class="table-responsive">
+			<table class="table table-intercoms table-hover">
+				<thead>
+					<tr>						
+						<th>Дата/время</th>
+						<th>Событие</th>
+						<th>Номер ключа</th>
+						<th>№ квартиры</th>
+						<th>Дополнительно</th>						
+						
+					</tr>
+				</thead>
+				<tbody>
+				<? if($this->rows)
+					foreach($this->rows as $row)
+					{
+						echo '<tr>
+							<td>'.$row['date'].'</td>						
+							<td>'.$row['comment'].'</td>						
+							<td>'.$row['key'].'</td>						
+							<td>'.$row['flat'].'</td>						
+							<td>'.$row['dop'].'</td>											
+						</tr>';
+					}
+				?>						
+				</tbody>
+			</table>			
+		</div>
+		
+

@@ -1,0 +1,155 @@
+<?
+#var_dump($this->arr);
+?>
+<!-- <input class="btn btn-primary" type="submit" value="Печать" onclick="window.print();" /> -->
+<script language="javascript">
+function CallPrint(strid) { var prtContent = document.getElementById(strid); var prtCSS = '<link rel="stylesheet" href="/templates/css/template.css" type="text/css" />'; var WinPrint = window.open('','','left=50,top=50,width=800,height=640,toolbar=0,scrollbars=1,status=0'); WinPrint.document.write('<div id="print" class="contentpane">'); WinPrint.document.write(prtCSS); WinPrint.document.write(prtContent.innerHTML); WinPrint.document.write('</div>'); WinPrint.document.close(); WinPrint.focus(); WinPrint.print(); WinPrint.close(); prtContent.innerHTML=strOldOne;
+}
+</script>
+<div class="row">
+<div id="print-content">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title">
+				<?php
+                                $tt=$this->rows[0]['data'];
+                                $data=date('d.m.y', strtotime($tt));
+				echo "Отчет по результатам \" ".$this->rows[0]['name']."\" от ".$data;
+				?></h3>
+				<div class="pull-right tooltip-demo">
+					<a title="Печать отчета" data-placement="top" data-toggle="tooltip" class="btn btn-white btn-sm" href="#/" onclick="javascript:CallPrint('print-content');" /><span class="input-group-addon"><i class="fa fa-print"></i></span></a>
+				</div>
+
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal" method="post">
+					<input type="hidden" name="id" value="<? echo $this->rows[0]['id'] ?>">
+					<input type="hidden" name="action" value="save">
+<!--					<input type="hidden" name="group_id" value="<? echo $this->rows['group_id'] ?>"> -->
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Аудитория</label>
+						<div class="col-sm-10">
+							<? echo $this->rows[0]['address'] ?>
+						</div>
+					</div>
+
+
+                                        <div class="form-group search_new">
+                                                <label class="col-sm-2 control-label">Повестка собрания</label>
+                                                <div class="col-sm-10">
+<!--                                                        <textarea name="introduction" data-provide="markdown" class="form-control" rows="10"> -->
+								<? echo $this->rows[0]['introduction'] ?>
+<!--							</textarea> -->
+                                                </div>
+                                        </div>
+
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Вопросы голосования</label>
+						<div class="col-sm-10">
+							<div id="questions_tab">
+								<?
+								$j=1;
+								$k=0;
+								$g=0;
+								if($this->arr){
+									foreach($this->arr as $key=>$value)
+								        {
+										echo "Вопрос ".$j.". ".$value['voting']."<br>";
+										echo "<table class=\"keys table\">";
+										echo "<tr><th  class=\"text-center\">Варианты ответов на вопрос</th><th class=\"text-center\">Количество голосов</th><th class=\"text-center\">% от общего числа голосов собственников помещений в многоквартирном доме</th></tr>";
+										$i=0;
+										$itog=0;
+										$gg=0;
+										foreach($value['answer'] as $answer)
+										{
+											echo "<tr><th  class=\"text-center\">".$answer."</th><th class=\"text-center\">".$value['result'][$i]."</th><th class=\"text-center\">".$value['procent'][$i]."</th></tr>";
+
+											if($value['result'][$i+1] > $value['result'][$i])$itog=$i+1;
+											$gg=$gg+$value['result'][$i];
+											$i++;
+										}
+										if($gg > $g)$g=$gg;
+										$zer="";
+										$rez=" нет проголосовавших, поэтому решение не принято";
+										if($value['result'][$itog] != 0 )
+										{
+											$rez=$value['answer'][$itog];
+											$zer=" принято решение: ";
+											$k++;
+										}
+										echo "</table>";
+										echo "По вопросу ".$j.$zer.$rez."<br><br>";
+										$j++;
+
+									}
+								}
+								?>
+							</div>
+						</div>
+					</div>
+
+
+
+              <div class="line-dashed"></div>
+
+<?
+				$ttd=$this->rows[0]['endData'];
+				$dataEndd=date('d.m.y', strtotime($ttd));
+?>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Окончание действия</label>
+						<div class="col-sm-10">
+							<? echo $dataEndd ?>
+						</div>
+					</div>
+<br>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Статус</label>
+						<div class="col-sm-10">
+								<label> Собрание <?
+								if($this->status) echo ('1'==$this->status ? ' открыто ' : ' закрыто ');
+								else echo ($this->rows[0]['status']=='1'?' открыто ':' закрыто ');
+							    ?></label>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Итоги собрания</label>
+						<div class="col-sm-10">
+							<?
+							$prin="приняло ";
+							$chel=" человек";
+							$rech=" решений";
+							if($g==1){
+							$prin="принял ";
+							$rech=" решение";
+							}
+							if(($g==2) || ($g==3) || ($g==4))$chel=" человека";
+							?>
+							в решении вопросов собрания <? echo $prin.$g.$chel  ?><br>
+							по поставленым вопросам принято <? echo $k.$rech ?>
+						</div>
+					</div>
+
+
+					<div class="line-dashed"></div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button class="btn btn-primary button_link" rel="<? echo BASE_PATH; ?>voting/listMeeting/" type="submit">Закрыть</button>
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

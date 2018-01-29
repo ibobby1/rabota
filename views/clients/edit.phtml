@@ -1,0 +1,370 @@
+
+		<div class="row">
+		<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading clearfix">
+						<h3 class="panel-title"><?php echo $this->rows['last_name'].' '.$this->rows['first_name'].' '.$this->rows['father_name']; ?></h3>
+					</div>
+					<div class="panel-body">	
+						 <form class="form-horizontal" method="post">
+							<input type="hidden" name="id" value="<? echo $this->rows['id'] ?>">
+							<input type="hidden" name="action" value="save">
+						 	<div class="form-group"> 
+								<label class="col-sm-2 control-label">Фамилия</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="Фамилия" name="last_name" value="<? echo $this->rows['last_name'] ?>" class="form-control"> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Имя</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="Имя" name="first_name" value="<? echo $this->rows['first_name'] ?>" class="form-control"> 
+								</div> 
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Отчество</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="Отчество" name="father_name" value="<? echo $this->rows['father_name'] ?>" class="form-control"> 
+								</div> 
+							</div>		
+							
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="is_debt" value="1" <? echo ($this->rows['is_debt']=='1'?'checked':''); ?>> не заключил договор или долг (заблокированы звонки)</label> 
+										 <?php
+										 if($this->rows['date_dogovor'] and $this->rows['is_debt']=='0')
+											 echo '<br>Дата заключения договора: <b>'.date('d.m.Y',strtotime($this->rows['date_dogovor'])).'</b>';
+										 ?>
+									</div> 
+								</div> 
+							</div>	
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="act" value="1" <? echo ($this->rows['act']=='1'?'checked':''); ?>> Включен</label> 
+									</div> 
+								</div> 
+							</div>		
+							<?php 
+								if(count($this->uk)>1)
+								{
+									echo '<div class="form-group"> 
+								<label class="col-sm-2 control-label">Управляющая компания</label> 
+								<div class="col-sm-10"> 
+								<div class="input-group"> 									
+									<select name="uk_id" class="form-control">';
+									
+										foreach($this->uk as $uk)
+										{
+											echo '<option value="'.$uk['id'].'" '.($this->rows['uk_id']==$uk['id']?'selected':'').'>'.$uk['name'].'</option>';
+										}
+									
+									echo '</select>
+									
+									</div>
+									</div>
+									
+								
+							</div>';
+								}
+								else 
+								{
+									echo '<input type="hidden" name="uk_id" value="'.$this->rows['uk_id'].'">';
+									if(!empty($this->rows['uk_name']))
+											echo '<div class="form-group"> 
+								<label class="col-sm-2 control-label">Управляющая компания</label> 
+								<div class="col-sm-10">'.$this->rows['uk_name'].'</div>
+									</div>';
+								}
+							?>
+							
+							<!--<input type="hidden" name="act" value="1" <? echo ($this->rows['act']=='1'?'checked':''); ?>>-->
+							<div class="line-dashed"></div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Номер телефона</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon">+7</span> 
+										<input type="text" placeholder="7777777777" name="phone" value="<? echo $this->rows['phone'] ?>" class="form-control"  maxlength="10"> 
+									</div>
+								</div> 
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Электронная почта</label> 
+								<div class="col-sm-10"> 
+									<div class="input-group"> 
+										<span class="input-group-addon"><i class="icon-mail"></i></span>
+										<input type="text" placeholder="mail@example.ru" name="email" value="<? echo $this->rows['email'] ?>" class="form-control"> 
+									</div>
+									
+								</div> 
+							</div>							
+							
+							<div class="line-dashed"></div>
+													
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Тариф</label> 
+								<div class="col-sm-10"> 
+									<select name="tarif_id" class="form-control">
+									<?php	
+										foreach($this->tarif_list as $row)
+										
+										{	
+											echo '<option value="'.$row['id'].'"'.($this->rows['tarif_id']==$row['id']?'selected':'').'>'.$row['tarif_name'].'</option>';
+										}
+									?>	
+									</select>
+								</div> 
+							</div>	
+							
+						
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Баланс SMS</label> 
+								<div class="col-sm-10"> 
+									<input type="text" readonly="true" value="<? echo $this->rows['sms_balance'] ?>"  name="sms_balance"  class="form-control"> 
+								</div> 
+							</div>	
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Код активации</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="" name="clientCode" readonly="readonly" value="<? echo $this->rows['clientCode'] ?>" class="form-control"> 
+								</div> 
+							</div>
+							
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Гостевой код</label> 
+								<div class="col-sm-10"> 
+									<input type="text" placeholder="" name="guestCode" value="<? echo $this->rows['guestCode'] ?>" class="form-control"> 
+								</div> 
+							</div>
+							
+
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Ключи</label> 
+								<div class="col-sm-10"> 
+									<div class="key_table">
+										<div class="row key_head">
+											<div class="col-md-2">
+											Номер 
+											</div>			
+											<div class="col-md-2">
+											Название ключа
+											</div>			
+											<div class="col-md-1">
+											Код
+											</div>
+											<div class="col-md-2">
+											Телефон
+											</div>			
+											<div class="col-md-2">
+											SIP
+											</div>
+											<div class="col-md-1 text-center">
+											Включен
+											</div>	
+											
+										</div>									
+									<?
+										foreach($this->keys as $index=>$key)
+										{
+											echo '
+											<div class="row key_line">
+												<div class="col-md-2">
+													<input type="hidden" class="key_id" name="key_id['.$index.']" value="'.$key['id'].'">
+													<input name="key_number['.$index.']" value="'.$key['number'].'" class="form-control number" size="10" maxlength=10> 
+												</div>														
+												<div class="col-md-2">
+													<input class="form-control name" name="key_names['.$index.']" value="'.$key['name'].'">
+												</div>	
+												<div class="col-md-1">
+													<input name="key_codes['.$index.']" value="'.$key['code'].'" class="form-control" size="10" maxlength=10> 
+												</div>			
+												<div class="col-md-2">
+													<div class="input-group">
+														<span class="input-group-addon">+7</span>
+														<input  maxlength="14" name="key_phones['.$index.']" value="'.$key['phone'].'" class="form-control phone" size="10" maxlength=10>
+													</div>	
+												</div>			
+												<div class="col-md-2">
+													<input name="key_sip['.$index.']" value="'.$key['sip'].'" readonly="readonly" class="form-control">		
+												</div>			
+												<div class="col-md-1 text-center">
+													<input type="checkbox" '.($key['act']==1?'checked="checked"':'').' name="key_act['.$index.']" value="1">
+												</div>
+												<div class="col-md-1 text-center">
+													<input type="hidden" name="key_del['.$index.']" value="0" class="remove"><a href="#" class="del" title="удалить ключ"><i class="fa fa-times" aria-hidden="true"></i></a>
+												</div>									
+											</div>';
+												
+										}	
+									//echo '<script>var keys_data='.json_encode($this->keys).';</script>';										
+									?>
+									
+									</div>									
+									<a data-rel="collapse" href="#" class="plus_key"><i class="fa fa-plus" aria-hidden="true"></i> Добавить ключ</a>
+								</div> 
+							</div>
+							
+							<div class="line-dashed"></div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label"></label> 
+								<div class="col-sm-10"> 
+								
+								<h2>Домофоны<button class="btn btn-default add_domofon"><i class="fa fa-plus" aria-hidden="true"></i> Прикрепить новый</button></h2>
+								
+								</div>	
+							</div>	
+							<div class="form-group search_new" style="display:none;"> 
+								<label class="col-sm-2 control-label">Адрес домофона</label> 
+								<div class="col-sm-10"> 
+									<div class="row search_addr">									
+										<div class="col-md-3">
+										<div class="help-block m-b-none">Город</div>
+											<select name="city_search" class="form-control">
+												<option value="0">Город</option>										
+											<?
+												foreach($this->cities as $city)
+												{
+													echo '<option value="'.$city['id'].'">'.$city['text'].'</option>';
+												}										
+											?>
+											</select>
+										</div>
+										<div class="col-md-3"><div class="help-block m-b-none">Улица</div>
+											<select  name="street_search" class="form-control"><option value="0">Улица</option>																				
+											</select>
+										</div>									
+											<div class="col-md-3"><div class="help-block m-b-none">Номер дома</div><select name="bild_domofon" class="form-control" title="Номер дома"></select></div>
+											
+										</div>
+									<div class="result row">
+										
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Домофоны клиента</label> 
+								<div class="col-sm-10 domnofon_added"> 
+									<?
+									if(count($this->intercoms)==0)
+										echo '<div class="help-block m-b-none">Нет добавленных</div>';
+									else
+										foreach($this->intercoms as $intercom)
+										{
+											$addr=$this->streets[$intercom['city_id']][$intercom['street_id']]['name'].', д.'.$intercom['house']
+												.(!empty($intercom['korp'])?', корп.'.$intercom['korp']:'')
+												.(!empty($intercom['entrance'])?', '.$intercom['entrance'].' подъезд':'')
+												.(!empty($intercom['comment'])?', '.$intercom['comment']:'');
+												
+											echo '<div class="panel panel-default domofon_item" rel="'.$intercom['id'].'">
+											<div class="panel-heading clearfix form-inline">
+												<div class="panel-title"><i class="fa fa-building" aria-hidden="true"></i> №'.$intercom['number'].' / '.$addr
+												.', кв: <input type="text" class="form-control flat"  name="flat['.$intercom['id'].']" value="'.$intercom['flat'].'">'
+												.'</div>
+												<ul class="panel-tool-options">
+													<li><a data-rel="collapse" href="#"><i class="icon-down-open"></i></a></li>
+													<li><a data-rel="close" href="#" class="remove_curr" title="Открепить и удалить включи"><i class="icon-cancel"></i></a></li>
+												</ul>
+											</div>
+											<div class="panel-body table-responsive">'											
+											.'<div class="input-group"> <span class="input-group-addon">Порт аналогового коммутатора</span> <input type="text" class="form-control flat"  name="analog['.$intercom['id'].']" value="'.$intercom['analog'].'"></div>'
+											.'<br><input type="hidden" name="domofon['.$intercom['id'].']" value="'.$intercom['id'].'">'													
+											.'<table class="keys table">
+											<tr><th>Ключ</th><th class="text-center">СМС</th><th class="text-center">Email</th><th class="text-center">Моб. приложение</th><th class="text-center">Звонки</th><th class="text-center">Открепить</th></tr>';
+											$key_added=array();
+											if(!empty($intercom['keys']))
+												foreach($intercom['keys'] as $index=>$key)
+												{
+													$key_added[$key['key_id']]=true;
+													echo '<tr class="attached_key"><td>
+												<input type="hidden" name="inter_key_id'.$intercom['id'].'['.$index.']" value="'.$key['id'].'">
+												<input type="hidden" class="key_id" name="key_id'.$intercom['id'].'['.$index.']" value="'.$key['key_id'].'">
+												'.$key['name'].' ('.$key['number'].')</td>												
+												<td align=center><input '.($key['send_sms']==1?'checked="checked"':'').' type="checkbox"  name="sms'.$intercom['id'].'['.$index.']" value="1"></td>
+												<td align=center><input '.($key['send_email']==1?'checked="checked"':'').' type="checkbox" name="emails'.$intercom['id'].'['.$index.']" value="1"></td>
+												<td align=center><input type="checkbox" '.($key['send_mobile']==1?'checked="checked"':'').' name="mobile'.$intercom['id'].'['.$index.']" value="1"></td>
+												<td align=center><input type="checkbox" '.($key['send_call']==1?'checked="checked"':'').' name="calls'.$intercom['id'].'['.$index.']" value="1"></td>
+												<td align=center><input type="hidden" name="del_key'.$intercom['id'].'['.$index.']" value="0" class="remove"><a href="#" class="del"><i class="fa fa-times" aria-hidden="true"></i></a></td></tr>';
+												}
+											echo '</table><div class="add_keys">';
+											if(count($key_added)==count($this->keys))
+												echo 'Все доступные ключи добавлены';
+											else {
+												echo '<select>';
+												foreach($this->keys as $key)
+												{
+													if(isset($key_added[$key['id']]))continue;
+													echo '<option value="'.$key['id'].'">'.$key['name'].' ('.$key['number'].')</option>';
+												}
+												echo '</select> <a data-rel="collapse" href="#" class="plus"><i class="fa fa-plus" aria-hidden="true"></i> Добавить ключ</a>';
+											}
+											echo '</div>
+											</div></div>';
+										}
+									
+									?></div>
+									<div class="form-group"> 
+										<label class="col-sm-2 control-label">Тихий режим</label> 
+										<div class="col-sm-10"> 										
+										<div class="row">
+											<div class="checkbox col-md-3">
+												 <label> <input type="checkbox" name="silentModeActive" <? echo ($this->rows['silentModeActive']==1?'checked="checked"':'');?> value="1"> включен</label> 
+											</div> 
+											<div class="col-md-3">от <input type="text" name="silentModeStart" value="<? echo $this->rows['silentModeStart']; ?>" class="form-control" placeholder="23:00" ></div>
+											<div class="col-md-3">до <input type="text" name="silentModeFinish" value="<? echo $this->rows['silentModeFinish']; ?>" class="form-control" placeholder="7:00" ></div>										
+										</div>
+											
+											
+										</div> 
+									</div>	
+									
+								</div>	
+							
+							<?
+							if(count($this->bills)>0)
+							{
+							echo '<div class="form-group"> 
+								<label class="col-sm-2 control-label">Оплата</label>
+								<div class="col-sm-10"> 																
+								Выставленные счета:<ul>';
+								foreach($this->bills as $bill)
+								{
+									echo '<li>'.$bill['summ'].' руб. - '.$bill['comment'].' '.($bill['payed']==1?' <b style="color:green">Оплачен</b> ':' Не оплачен');
+								}
+								echo '</ul>
+								Оплаты:<ul>';
+								foreach($this->payments as $pay)
+								{
+									echo '<li>'. date("m.d.y H:i", strtotime($pay['created'])).' '.$pay['summ'].' руб. '.($pay['payed']==1?' <b style="color:green">Оплачен</b> ':' Не оплачен').' ('.implode(', ',$pay['month']).')';
+								}
+								echo '</ul></div>	
+							</div>';
+							}
+							?>
+							</div>
+							<div class="line-dashed"></div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="continue" value="1" <? echo (isset($_SESSION['continue_edit'])?'checked':''); ?>> продолжить редактирование </label> 
+									</div> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<button class="btn btn-primary" type="submit">Сохранить</button> <button class="btn btn-small button_link" rel="<? echo BASE_PATH; ?>clients/list/" type="submit">Отменить</button> 
+								</div> 
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+</div>

@@ -1,0 +1,196 @@
+<?
+#print_r($this->meetingName);
+?>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title">
+				<?php
+				echo "<a href=\"/admin/voting/editmeeting/".$this->meetingName[0]['group_id']."\">".$this->meetingName[0]['name']." от ".$this->meetingName[0]['data']."</a> > ".$this->rows['voting'];
+				?></h3>
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal" method="post">
+					<input type="hidden" name="id" value="<? echo $this->rows['id'] ?>">
+					<input type="hidden" name="action" value="save">
+					<input type="hidden" name="group_id" value="<? echo $this->rows['group_id'] ?>">
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Тема голосования</label>
+						<div class="col-sm-10">
+							<input type="text" placeholder="" name="voting" value="<? echo $this->rows['voting'] ?>" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Варианты ответов голосования</label>
+						<div class="col-sm-10">
+							<div id="answer_tab">
+								<?
+								if($this->arr){
+									foreach($this->arr as $key=>$value)
+								        {
+										explode(":",$value);
+										echo "<div class=\"answer_line\">
+							                        <input type=\"text\" name=\"answer[".$key."]\" value=\"".$value."\" class=\"form-control-answer\">
+							                        <input type=\"hidden\" name=\"answer_del[".$key."]\" value=\"0\" class=\"remove\">
+							                        <a href=\"#\" class=\"del\" title=\"удалить ответ\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i></a>
+							                        </div>";
+									}
+								}
+								?>
+<!--								<input type="text" placeholder="" name="answer.0" value="<? echo $this->rows['answer.0'] ?>" class="form-control">  -->
+							</div>
+							<a href="#" data-rel="collapse"  id="plus_answer"><i class="fa fa-plus" aria-hidden="true"></i> Добавить вариант ответа</a>
+						</div>
+					</div>
+<!--
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Аудитория</label>
+						<div class="col-sm-10">
+							<input type="text" placeholder="" name="group_id" value="<? echo $this->rows['group_id'] ?>" class="form-control">
+						</div>
+					</div>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Аудитория</label>
+                                                <div class="col-sm-10">
+                                                        <div class="input-group">
+                                                                <select name="group_id" class="form-control add_txt_notify"><option value="0">Тип не выбран</option>
+                                                                <?
+                                                                            echo '<option value="1"'.($this->rows['group_id']==1?' selected':'').' >Открытая</option>';
+                                                                            echo '<option value="2"'.($this->rows['group_id']==2?' selected':'').' >Закрытая</option>';
+                                                                ?>
+                                                                </select>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+-->
+<?
+                                $tt=$this->rows['data'];
+                                $data=date('d.m.y', strtotime($tt));
+?>
+
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Дата создания</label>
+                                                <div class="col-sm-10">
+                                                        <div id="date-popup" class="input-group date">
+                                                        <input type="text"  data-format="D, dd MM yyyy" name="data" value="<? echo $data  ?>" class="form-control">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+<?
+                                $ttd=$this->rows['endTime'];
+                                $dataEndd=date('d.m.y', strtotime($ttd));
+?>
+
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Окончание действия</label>
+                                                <div class="col-sm-10">
+                                                        <div id="date-popup-end" class="input-group date">
+                                                        <input type="text" data-format="D, dd MM yyyy" name="endTime" value="<? echo $dataEndd ?>" class="form-control">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+
+                                                </div>
+                                        </div>
+
+					<div class="line-dashed"></div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label> <input type="checkbox" name="continue" value="1" <? echo (isset($_SESSION['continue_edit'])?'checked':''); ?>> продолжить редактирование </label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button class="btn btn-primary" type="submit">Сохранить</button> <button class="btn btn-small button_link" rel="<? echo BASE_PATH; ?>voting/list/" type="submit">Отменить</button>
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php
+#if($this->rows['status'] == '1'){
+#echo '<div id="modal-2" class="modal fade" tabindex="-1" role="dialog">
+#  <div class="modal-dialog">
+#    <div class="modal-content">
+#      <div class="modal-header">
+#        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+#        <h4 class="modal-title" id="myModalLabel">Голосование</h4>
+#        <h4 class="modal-title" id="myModalLabel">';
+#	echo "<b>".$this->rows['voting']."</b>";
+#      echo '</h4>
+#      </div>
+#      <div class="modal-body">';
+#                if($this->arr){
+#                        foreach($this->arr as $key=>$value)
+#                        {
+#	                        explode(":",$value);
+#                                echo "<div class=\"radio\"><label>
+#					    <input type=\"radio\" id=\"optionsradios\" name=\"answerClient\" value=\"".$key."\">".$value."
+#					</label></div>";
+#                        }
+#                }
+#        echo '<form class="modal-form">
+#        <input type="hidden" name="id" value="';
+#        echo $this->rows['id'];
+#        echo '">
+#        </form>
+#      </div>
+#<!--      <div class="modal-footer">
+#        <button type="button" class="btn btn-primary">Прочитано</button>
+#      </div> -->
+#    </div>
+#  </div>
+#</div>';
+#
+#echo '<div id="modal-3" class="modal fade" tabindex="-1" role="dialog">
+#  <div class="modal-dialog">
+#    <div class="modal-content">
+#      <div class="modal-header">
+#        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+#        <h4 class="modal-title" id="myModalLabel">Голосование</h4>
+#        <h4 class="modal-title" id="myModalLabel">';
+#	echo "Результаты по опросу <b>".$this->rows['voting']."</b>";
+#      echo '</h4>
+#      </div>
+#      <div class="modal-body">';
+#                if($this->arr){
+#			$width=80;
+#                        foreach($this->arr as $key=>$value)
+#                        {
+#	                        explode(":",$value);
+#				$width=$width-10;
+#                                echo "<div class=\"progress\">";
+#					echo "<div style=\"width:".$width."%\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"40\" role=\"progressbar\" class=\"progress-bar progress-bar-info\">
+#						<span class=\"sr-only\">".$key.".".$value." 40% голосов</span>".$value."
+#					</div>
+#				</div>";
+#                        }
+#                }
+#        echo '<form class="modal-form">
+#        <input type="hidden" name="id" value="';
+#        echo $this->rows['id'];
+#        echo '">
+#        </form>
+#      </div>
+#      <div class="modal-footer">
+#        <button type="button" class="btn btn-primary">Прочитано</button>
+#      </div>
+#    </div>
+#  </div>
+#</div>';
+#
+#
+#}
+?>

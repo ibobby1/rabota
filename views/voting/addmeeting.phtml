@@ -1,0 +1,162 @@
+<?
+#var_dump($this->rows[0]['name']);
+?>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title">
+				<?php
+				echo "Новое собрание";
+				?></h3>
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal" method="post">
+					<input type="hidden" name="id" value="<? echo $this->rows[0]['id'] ?>">
+					<input type="hidden" name="action" value="save">
+<!--					<input type="hidden" name="group_id" value="<? echo $this->rows['group_id'] ?>"> -->
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Тема собрания</label>
+						<div class="col-sm-10">
+							<input type="text" placeholder="" name="name" value="<? echo $this->rows[0]['name'] ?>" class="form-control">
+						</div>
+					</div>
+
+                                        <div class="form-group search_new">
+                                                <label class="col-sm-2 control-label">Повестка собрания</label>
+                                                <div class="col-sm-10">
+                                                        <textarea name="introduction" data-provide="markdown" class="form-control" rows="10"><? echo $this->rows[0]['introduction'] ?></textarea>
+                                                </div>
+                                        </div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Аудитория</label>
+					</div>
+
+              <div class="form-group">
+                      <label class="col-sm-2 control-label"></label>
+                      <div class="col-sm-10">
+                                      <h3>Задать адрес перед созданием вопросов <button class="btn btn-default add_domofon"><i class="fa fa-plus" aria-hidden="true"></i> Выбрать адрес</button></h2>
+                                              </div>
+                                              </div>
+
+                                         <div class="form-group search_new" style="display:none;">
+                                                      <label class="col-sm-2 control-label">Адрес домофона</label>
+                                              <div class="col-sm-10">
+                                                      <div class="row search_addr">
+                                                              <div class="col-md-3">
+                                                                	    <div class="help-block m-b-none">Город</div>
+                                                                                 <select name="city_search" class="form-control">
+                                                                                      <option value="0">Город</option>
+                                                                            		<?
+                                                                                      foreach($this->cities as $city)
+                                                                                      {
+                                                                                              echo '<option value="'.$city['id'].'">'.$city['text'].'</option>';
+                                                                                      }
+                                                                              ?>
+                                                                              </select>
+                                                                    </div>
+                                                                    <div class="col-md-3"><div class="help-block m-b-none">Улица</div>
+                                                                              <select  name="street_search" class="form-control"><option value="0">Улица</option>
+                                                                              </select>
+                                                            </div>
+                                                            <div class="col-md-3"><div class="help-block m-b-none">Номер дома</div><select name="bild_domofon" class="form-control" title="Номер дома"></select></div>
+                                                    </div>
+                                                             <div class="result row">
+                                                             </div>
+`	                                        <div class="col-sm-10 domnofon_added"></div>
+                                            </div>
+                                      </div>
+
+
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Вопросы голосования</label>
+						<div class="col-sm-10">
+							<div id="questions_tab">
+								<?
+								if($this->arr){
+									foreach($this->arr as $key=>$value)
+								        {
+										echo "<div class=\"questions_line\">
+							                        <input type=\"hidden\" name=\"questions_id[".$key."]\" value=\"".$value['id']."\" >
+							                        <input type=\"text\" name=\"questions[".$key."]\" value=\"".$value['voting']."\" class=\"form-control-questions\">
+							                        <a href=\"".BASE_PATH."voting/edit/".$value['id']."\" class=\"edit\" title=\"редактировать вопрос\"><i class=\"icon-check icon-larger green-color\"></i></a>
+							                        <input type=\"hidden\" name=\"questions_del[".$key."]\" value=\"0\" class=\"remove\">
+							                        <a href=\"#\" class=\"del\" title=\"удалить вопрос\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i></a>
+							                        </div>";
+									}
+								}
+								?>
+							</div>
+							<a href="#" data-rel="collapse"  id="plus_questions"><i class="fa fa-plus" aria-hidden="true"></i> Добавить вопрос</a>
+						</div>
+					</div>
+
+
+
+              <div class="line-dashed"></div>
+
+<?
+                                $tt=$this->rows[0]['data'];
+                                $data=date('d.m.y', strtotime($tt));
+?>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Дата создания</label>
+                                                <div class="col-sm-10">
+                                                        <div id="date-popup" class="input-group date">
+                                                        <input type="text"  data-format="D, dd MM yyyy" name="data" value="" class="form-control">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+                                                </div>
+                                        </div>
+<?
+                                $ttd=$this->rows[0]['endData'];
+                                $dataEndd=date('d.m.y', strtotime($ttd));
+?>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Окончание действия</label>
+                                                <div class="col-sm-10">
+                                                        <div id="date-popup-end" class="input-group date">
+                                                        <input type="text" data-format="D, dd MM yyyy" name="endData" value="" class="form-control">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+
+                                                </div>
+                                        </div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Статус</label>
+						<div class="col-sm-10">
+							<div class="checkbox">
+								<label> <input type="checkbox" name="status" value="1" <?
+								if($this->status) echo ('1'==$this->status ? 'checked' : '');
+								else echo ($this->rows[0]['status']=='1'?'checked':'');
+							    ?>>Открыть собрание</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="line-dashed"></div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label> <input type="checkbox" name="continue" value="1" <? echo (isset($_SESSION['continue_edit'])?'checked':''); ?>> продолжить редактирование </label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button class="btn btn-primary" type="submit">Сохранить</button> <button class="btn btn-small button_link" rel="<? echo BASE_PATH; ?>voting/list/" type="submit">Отменить</button>
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

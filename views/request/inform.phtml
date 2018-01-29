@@ -1,0 +1,29 @@
+<?
+#print_r($this->values);
+#echo "!!!<br>";
+#print_r($this->rows);
+#print_r($_SESSION);
+#echo $this->test;
+?>
+
+                <div class="main-content">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title">Контактная информация</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class='section__content'><div class='aboutContent'><div class='bigInfo'><div class='imageWithTexts'>
+			<?
+				echo "Название компании: ".$this->rows[name]."<br>";
+				echo "Дополнительная информация: ".$this->rows[comment]."<br>";
+				echo "Контактная информация: ".$this->rows[contact]."<br>";
+				echo "Телефон секретаря: ".$this->rows[manager_phone]."<br>";
+				echo "Телефон диспечера: ".$this->rows[secretary_phone]."<br>";
+				echo "Адрес офиса: ".$this->rows[address_office]."<br>";
+				echo "Адрес матеров: ".$this->rows[name]."<br>";
+			?>
+			</div></div></div></div>
+		</div>
+	    </div>
+	    </div>

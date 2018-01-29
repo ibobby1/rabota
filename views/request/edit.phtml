@@ -1,0 +1,141 @@
+<?
+#print_r($this->values);
+#echo "!!!<br>";
+#print_r($this->rows);
+#print_r($_SESSION);
+#echo $this->test;
+?>
+	<div class="row">
+		<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading clearfix">
+					<?
+						$message="";
+						if($this->rows['uprkp_work'] == 0) $message=" пока не готова принимать online-заявки!!!";
+					?>
+						<h3 class="panel-title"><?php echo $this->rows['uprkp'].$message ?></h3>
+					</div>
+					<div class="panel-body">
+						 <form class="form-horizontal" method="post">
+							<input type="hidden" name="action" value="save">
+							<input type="hidden" name="id" value="<? echo $this->rows['id'] ?>">
+							<input type="hidden" name="uk_id" value="<? echo $this->rows['uk_id'] ?>">
+							<input type="hidden" name="client_id" value="<? echo $this->rows['client_id'] ?>">
+							<input type="hidden" name="intercom_id" value="<? echo $this->rows['intercom_id'] ?>">
+						 	<div class="form-group">
+								<label class="col-sm-2 control-label">Неполадка</label>
+								<div class="col-sm-10">
+									<input type="text" placeholder="Введите что вы хотите починить" name="request_name" value="<? echo $this->rows['request_name'] ?>" class="form-control">
+								</div>
+							</div>
+						 	<div class="form-group">
+								<label class="col-sm-2 control-label">ФИО клиента</label>
+								<div class="col-sm-10">
+									<input type="text" placeholder="Фамилия Имя Отчество" name="fio" value="<? echo $this->rows['fio'] ?>" class="form-control"> 
+								</div>
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Адрес</label>
+								<div class="col-sm-10">
+									<input type="text" placeholder="Адрес клиента" name="address" value="<? echo $this->rows['address'] ?>" class="form-control">
+								</div>
+							</div>
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label">Коментарии</label>
+								<div class="col-sm-10">
+									<?
+									echo '<p class="help-block">'.$this->rows['coment'].'</p>';
+									?>
+									<input type="hidden" name="coment" value="<? echo $this->rows['coment'] ?>">
+									<input type="text" placeholder="Введите свои комментарии" name="new_coment" value="" class="form-control">
+								</div>
+							</div>
+
+<?
+                                $tt=$this->rows['greate_time'];
+                                $data=date('d.m.Y H.i', strtotime($tt));
+?>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Дата и время создания заявки</label>
+                                                <div class="col-sm-10">
+                                                        <?      echo '<p class="help-block">'.$data.'</p>'; ?>
+							<input type="hidden" name="greate_time" value="<? echo $this->rows['greate_time'] ?>">
+                                                </div>
+                                        </div>
+<?
+
+                                $tt=$this->rows['visit_time'];
+                                $data=date('d.m.Y', strtotime($tt));
+                                $time=date('H.i', strtotime($tt));
+?>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Дата и время визита мастеров</label>
+                                                <div class="col-sm-10">
+						<?	echo '<p class="help-block">Дата и время визита мастеров для устранения заявки</p>'; ?>
+                                                <div class="col-sm-4">
+                                                        <div id="date-popup" class="input-group date">
+                                                        <input type="text"  data-format="D, dd MM yyyy" name="visit_date" value="<? echo $data  ?>" class="form-control">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+							<input type="text" placeholder="Укажите час на который назначен визит мастеров" name="visit_time" value="<? echo $time ?>" class="form-control">
+                                                </div>
+                                                </div>
+                                        </div>
+
+<?
+                                if(!empty($this->rows['close_time'])){
+					$tt=$this->rows['close_time'];
+                            		$data=date('d.m.Y', strtotime($tt));
+					$time=date('H.i', strtotime($tt));
+				}else{
+					$data=date('d.m.Y');
+					$time="";
+				}
+?>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Дата закрытия заявки</label>
+                                                <div class="col-sm-10">
+							<div class="col-sm-4">
+                                                        <div id="date-popup" class="input-group date">
+                                                        <input type="text"  data-format="D, dd MM yyyy" name="close_date" value="<? echo $data ?>" class="form-control">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+							<input type="text" placeholder="Время закрытия заявки" name="close_time" value="<? echo $time ?>" class="form-control">
+                                                </div>
+                                                </div>
+                                        </div>
+
+
+					<div class="line-dashed"></div>
+                                        <div class="form-group">
+                                                <label class="col-sm-2 control-label">Статус</label>
+                                                <div class="col-sm-10">
+                                                        <div class="checkbox">
+                                                                <label> <input type="checkbox" name="act" value="1" <?
+                                                                if($this->act) echo ('1'==$this->act ? 'checked' : '');
+                                                                else echo ($this->rows['act']=='1'?'checked':'');
+                                                            ?>> Активировать заявку</label>
+                                                        </div>
+                                                </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="line-dashed"></div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<div class="checkbox">
+										 <label> <input type="checkbox" name="continue" value="1" <? echo (isset($_SESSION['continue_edit'])?'checked':''); ?>> продолжить редактирование </label> 
+									</div> 
+								</div> 
+							</div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10">
+									<button class="btn btn-primary" type="submit">Сохранить</button> <button class="btn btn-small button_link" rel="<? echo BASE_PATH; ?>request/list/" type="submit">Отменить</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+</div>

@@ -1,0 +1,12 @@
+<?php
+	if($this->rows)
+	{
+		echo '<table class="table table-users table-hover">
+		<tr><th>Логин</th><th>ip</th><th>ping</th></tr>';
+		foreach($this->rows as $row)
+		{
+			echo '<tr><td>'.$row[1].'</td><td>'.$row[2].'</td><td>'.$row[3].'</td></tr>';
+		}
+		echo '</table>';
+	}
+?>

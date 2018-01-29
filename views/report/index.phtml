@@ -1,0 +1,113 @@
+<div class="row">
+<div class="col-md-6"> 
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix"> 
+							<div class="panel-title">Параметры отчета</div> 
+							<ul class="panel-tool-options"> 
+								<li><a data-rel="collapse" href="#"><i class="icon-down-open"></i></a></li>								
+							</ul> 
+						</div> 
+						<!-- panel body --> 
+						<div class="panel-body"> 
+							<form class="form-horizontal"> 
+							
+						 	<div class="form-group" method="GET"> 
+								<label class="col-sm-2 control-label" >Дата от</label> 
+								
+								<div class="col-sm-3"> 
+										
+										<select name="month_from"  class="form-control">
+										<?
+										 $monthName = array(null,"Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь");
+										foreach($monthName as $i=>$name)
+										{
+											if(empty($name))continue;
+											echo '<option value="'.$i.'" '.((!empty($_GET['month_from']) and $_GET['month_from']==$i)?'selected':'').'>'.$name.'</option>';
+										}
+										?>
+										</select>
+										<input type="text" name="year_from" value="<? 
+											echo (empty($_GET['year_from'])?date("Y"):intval($_GET['year_from'])) 
+										?>" class="form-control" placeholder="год">	
+										
+								</div>							
+							</div> 
+							
+							<div class="form-group"> 
+								<label class="col-sm-2 control-label" value="2017" >Дата по</label> 
+								
+								<div class="col-sm-3"> 
+										
+										<select name="month_to"  class="form-control">
+											<?
+										$monthName = array(null,"Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь");
+										foreach($monthName as $i=>$name)
+										{
+											if(empty($name))continue;
+											echo '<option value="'.$i.'" '.((!empty($_GET['month_to']) and $_GET['month_to']==$i)?'selected':'').'>'.$name.'</option>';
+										}
+										?>
+										</select>
+										<input type="text" name="year_to" value="<? 
+											echo (empty($_GET['year_to'])?date("Y"):intval($_GET['year_to'])) 
+										?>" class="form-control" placeholder="год">
+								</div>							
+							</div> 
+							
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10"> 
+									<button class="btn btn-primary" type="submit">Показать</button> 
+								</div> 
+							</div> 
+						</form>
+							
+							
+						</div> 
+					</div> 
+				</div>
+</div>
+<?php
+
+if($this->intercoms)
+{
+	
+	foreach($this->intercoms as &$intercom)
+			{				
+				echo '<h2>Домофон №'.$intercom['number'].'</h2>';
+				echo '<table width=60% class="table-hover">';
+				echo '<tr><td>1. Использование ключей</td><td> '.$intercom['key'].' квартир</td><td>'.$intercom['key_all'].' шт.</td></tr>';
+				echo '<tr><td>2. Использование кодов</td><td> '.$intercom['code'].' квартир</td><td>'.$intercom['code_all'].' шт.</td></tr>';
+				echo '<tr><td>3. Вызовы</td><td> '.$intercom['call'].' квартир</td><td>'.$intercom['call_all'].' шт.</td></tr>';				
+				echo '<tr><td> 3.1. из них отвеченных</td><td> </td><td>'.$intercom['call_ans'].' шт.</td></tr>';
+				echo '<tr><td> 3.2. sip</td><td> </td><td>'.$intercom['call_sip'].' шт.</td></tr>';
+				echo '<tr><td> 3.3. на телефоны</td><td> </td><td>'.$intercom['call_mob'].' шт.</td></tr>';
+				echo '<tr><td>4. SMS-оповещения	</td><td> '.$intercom['sms'].' квартир</td><td>'.$intercom['sms_all'].' шт.</td></tr>';
+				echo '<tr><td>5. Email-оповещения</td><td> '.$intercom['email'].' квартир</td><td>'.$intercom['email_all'].' шт.</td></tr>';
+				echo '<tr><td>5. Тихий режим	</td><td> '.$intercom['silent'].' квартир</td><td></td></tr>';
+				echo '<tr><td>6. Вызовы 112	</td><td></td><td>'.$intercom['112'].' шт.</td></tr>';
+				echo '<tr><td>7. Персональное видеонаблюдение	</td><td></td><td>0 шт.</td></tr>';
+				echo '<tr><td>8. Домашняя автоматизация	</td><td></td><td>0 шт.</td></tr>';
+				echo '</table><br>';
+			}
+}
+/*
+1	Использование ключей					__ квартир		__ шт.
+2	Использование постоянных кодов				__ квартир		__ шт.
+3	Использование временных кодов				__ квартир		__ шт.
+4	Вызовы							__ квартир		__ шт.
+4.1.	в т.ч. вызовов на SIP					__ квартир		__ шт.
+	в т.ч. с ответом					__ квартир		__ шт.
+4.2.	вызовов на телефоны					__ квартир		__ шт.
+	в т.ч. с ответом					__ квартир		__ шт.
+4.3.	вызовов на аналоговые устройства			__ квартир		__ шт.
+5	SMS-оповещения						__ квартир		__ шт.
+6	Email-оповещения						__ квартир		__ шт.
+7	Тихий режим							__ квартир		__ шт.
+8	Вызовы 112										__ шт.
+	в т.ч. с ответом								__ шт.
+9	Персональное видеонаблюдение				__ квартир
+10	Домашняя автоматизация					__ квартир
+
+
+*/
+?>

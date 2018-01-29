@@ -1,0 +1,148 @@
+<?php
+
+
+
+
+?>
+<div class="row"> 
+<div class="col-md-6"> 
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix"> 
+							<div class="panel-title">Отчет о принятых платежах</div> 
+							
+						</div> 
+						<!-- panel body --> 
+						<div class="panel-body"> 
+							
+							<form class="form-horizontal"> 
+							
+						 	<div class="form-group col-md-6 row" > 
+								<label class="col-sm-6 control-label" >Дата от</label> 
+								
+								<div class="col-sm-6"> 
+										
+										<select name="month_from"  class="form-control">
+										<?
+										 $monthName = array(null,"Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь");
+										foreach($monthName as $i=>$name)
+										{
+											if(empty($name))continue;
+											echo '<option value="'.$i.'" '.((!empty($_GET['month_from']) and $_GET['month_from']==$i)?'selected':'').'>'.$name.'</option>';
+										}
+										?>
+										</select>
+										<input type="text" name="year_from" value="<? 
+											echo (empty($_GET['year_from'])?date("Y"):intval($_GET['year_from'])) 
+										?>" class="form-control" placeholder="год">	
+										
+								</div>							
+							</div> 
+							
+							<div class="form-group col-md-6 row"> 
+								<label class="col-sm-6 control-label" value="2017" >Дата по</label> 
+								
+								<div class="col-sm-6"> 
+										
+										<select name="month_to"  class="form-control">
+											<?
+										$monthName = array(null,"Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь");
+										foreach($monthName as $i=>$name)
+										{
+											if(empty($name))continue;
+											echo '<option value="'.$i.'" '.((!empty($_GET['month_to']) and $_GET['month_to']==$i)?'selected':'').'>'.$name.'</option>';
+										}
+										?>
+										</select>
+										<input type="text" name="year_to" value="<? 
+											echo (empty($_GET['year_to'])?date("Y"):intval($_GET['year_to'])) 
+										?>" class="form-control" placeholder="год">
+								</div>							
+							</div> 
+							
+							<div class="form-group"> 
+								<div class="col-sm-offset-1 col-sm-10"> 
+									<button class="btn btn-primary" type="submit">Показать</button> 
+								</div> 
+							</div> 
+						</form>
+							
+							
+						</div> 
+					</div> 
+				</div>
+		
+			
+<div class="col-md-6"> 
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix"> 
+							<div class="panel-title">Выберите файл импорта платежей</div> 
+							
+						</div> 
+						<!-- panel body --> 
+						<div class="panel-body"> 
+							<form action="<? echo BASE_PATH; ?>bills/import/" method="post" enctype="multipart/form-data">
+							<div class="form-group">
+									
+									<input type="file" name="importfile" class="form-control" id="file_import">
+							  </div>			  
+											
+							<button type="submit" class="btn btn-primary">Загрузить</button>
+											  
+							</form>
+							
+						</div> 
+					</div> 
+				</div>
+</div>										
+</div>	
+
+<?
+if($this->rows)
+{
+?>
+
+<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>						
+						<th>ФИО</th>
+						<th>Номер квартиры</th>						
+						<th>Дата платежа</th>									
+						<th>Сумма</th>						
+						<th>Счета</th>						
+						<th>Детали</th>												
+					</tr>
+				</thead>
+				<tbody>
+				<? 
+					foreach($this->rows as $row)
+					{
+						echo '
+						<tr>
+							<td><a href="'.BASE_PATH.'clients/edit/'.$row['client_id'].'">'.$row['fio'].'</a></td>						
+							<td>'.$row['flat'].'</td>						
+							<td>'.$row['created'].'</td>						
+							<td>'.number_format(floatval($row['summ']), 2, '.', '').'</td>						
+							<td>';
+							$month=array();
+							foreach($row['bills'] as $bill)
+								$month[]=number_format(floatval($bill['summ']), 2, '.', '').'руб. '.$bill['comment'];
+							echo implode('<br> ',$month);
+							echo '</td>						
+							<td>
+							<button type="button" class="btn btn-link" data-toggle="popover" title="Детали по платежу" data-placement="top" 
+								data-content="'.$row['pay_info'].'" data-original-title="Popover title" aria-describedby="popover603777">показать</button>							
+
+						</tr>';
+					}
+				?>						
+				</tbody>
+			</table>			
+		</div>
+		
+
+<? 
+}
+?>
+
+									
